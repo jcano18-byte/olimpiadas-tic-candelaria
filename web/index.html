@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Olimpiadas Tecnología e Informática · IE La Candelaria</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <strong>IE La Candelaria</strong>
+      <span>Olimpiadas de Tecnología e Informática 2026</span>
+    </div>
+    <nav class="topnav">
+      <a href="#/" data-route="/">Estudiante</a>
+      <a href="#/area" data-route="/area">Área</a>
+      <a href="#/coordinacion" data-route="/coordinacion">Coordinación</a>
+      <a href="#/rector" data-route="/rector">Rectoría</a>
+    </nav>
+  </header>
+
+  <main id="app" class="container"></main>
+
+  <footer class="footer">
+    <span>IE La Candelaria · Olimpiadas 2026</span>
+    <span class="muted">Los datos se actualizan al cierre de cada prueba</span>
+  </footer>
+
+  <template id="tpl-student">
+    <section class="card">
+      <h1>Consulta tu resultado</h1>
+      <p class="muted">Ingresa tu código de matrícula tal como aparece en tu carnet.</p>
+      <form id="student-form" class="form-inline">
+        <label for="mat">Matrícula</label>
+        <input id="mat" name="mat" type="text" inputmode="numeric" autocomplete="off" required maxlength="10" placeholder="ej. 250190">
+        <button type="submit">Ver resultado</button>
+      </form>
+      <p id="student-error" class="error" hidden></p>
+    </section>
+    <section id="student-result" hidden></section>
+  </template>
+
+  <template id="tpl-admin-login">
+    <section class="card">
+      <h1 data-role-title>Acceso</h1>
+      <p class="muted">Ingresa el PIN para ver los resultados.</p>
+      <form id="admin-form" class="form-inline">
+        <label for="pin">PIN</label>
+        <input id="pin" name="pin" type="password" autocomplete="off" required>
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="admin-error" class="error" hidden></p>
+    </section>
+  </template>
+
+  <template id="tpl-admin-dashboard">
+    <section class="card">
+      <div class="row">
+        <h1 data-role-title>Panel</h1>
+        <button id="logout" class="ghost">Cerrar sesión</button>
+      </div>
+
+      <div id="kpis" class="kpis"></div>
+
+      <div class="filters">
+        <label>Grado
+          <select id="filter-grade"><option value="">Todos</option></select>
+        </label>
+        <label>Grupo
+          <select id="filter-group"><option value="">Todos</option></select>
+        </label>
+        <label>Buscar
+          <input id="filter-search" type="search" placeholder="Nombre o matrícula">
+        </label>
+        <button id="export-csv">Exportar CSV</button>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h2>Promedio por grupo</h2>
+          <canvas id="chart-group" height="180"></canvas>
+        </div>
+        <div>
+          <h2>% de aciertos por pregunta</h2>
+          <canvas id="chart-question" height="180"></canvas>
+        </div>
+      </div>
+
+      <h2>Ranking</h2>
+      <div class="table-wrap">
+        <table id="ranking">
+          <thead>
+            <tr><th>#</th><th>Matrícula</th><th>Nombre</th><th>Grupo</th><th>Grado</th><th>Puntaje</th><th>%</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

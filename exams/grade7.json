@@ -1,0 +1,356 @@
+[
+  {
+    "id": 1,
+    "type": "interpretativa",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes materiales es de origen natural?",
+    "choices": {
+      "A": "Plástico.",
+      "B": "Vidrio.",
+      "C": "Madera.",
+      "D": "Nailon."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 2,
+    "type": "interpretativa",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "Los materiales sintéticos se caracterizan por:",
+    "choices": {
+      "A": "Provenir directamente de plantas o animales.",
+      "B": "Ser elaborados por el ser humano a partir de procesos químicos.",
+      "C": "Estar formados solo por metal.",
+      "D": "No usarse en la industria."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 3,
+    "type": "argumentativa",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "¿Por qué se prefiere el aluminio para latas de bebida frente al hierro?",
+    "choices": {
+      "A": "Porque el aluminio es más pesado.",
+      "B": "Porque el aluminio es ligero y no se oxida fácilmente.",
+      "C": "Porque el hierro no se puede reciclar.",
+      "D": "Porque el aluminio es más barato que cualquier metal."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 4,
+    "type": "propositiva",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "Para construir un puesto de venta escolar resistente y económico, ¿qué materiales combinarías?",
+    "choices": {
+      "A": "Vidrio y porcelana únicamente.",
+      "B": "Cartón y papel únicamente.",
+      "C": "Madera reciclada y tornillos metálicos.",
+      "D": "Tela y algodón únicamente."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 5,
+    "type": "analisis_grafica",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "Tabla: Acero - resistencia alta, costo medio. Aluminio - resistencia media, costo medio. Plástico - resistencia baja, costo bajo. Para una estructura que soportará mucho peso, lo más adecuado es:",
+    "choices": {
+      "A": "Plástico, por ser barato.",
+      "B": "Aluminio, por ser brillante.",
+      "C": "Acero, por su alta resistencia.",
+      "D": "Cualquiera, da igual."
+    },
+    "answer": "C",
+    "image": "g7_q5_materiales.png"
+  },
+  {
+    "id": 6,
+    "type": "argumentativa",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "¿Por qué es importante reciclar materiales como el vidrio y el aluminio?",
+    "choices": {
+      "A": "Porque ya no sirven para nada.",
+      "B": "Porque reduce el consumo de recursos y la contaminación.",
+      "C": "Porque pesan poco.",
+      "D": "Porque son materiales muy costosos de producir desde cero, y eso es lo único que importa."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 7,
+    "type": "comprension_texto",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "Lee: 'Los materiales se clasifican en naturales (madera, piedra), transformados (papel, cuero) y sintéticos (plástico, nailon).' Según el texto, el papel es un material:",
+    "choices": {
+      "A": "Natural.",
+      "B": "Transformado.",
+      "C": "Sintético.",
+      "D": "Mineral."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 8,
+    "type": "interpretativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "En un procesador de texto (Word, Docs), los 'estilos de título' (Título 1, Título 2) sirven principalmente para:",
+    "choices": {
+      "A": "Cambiar el color del fondo del documento.",
+      "B": "Organizar el documento y generar índice automático.",
+      "C": "Convertir el texto en imagen.",
+      "D": "Imprimir más rápido."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 9,
+    "type": "interpretativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "En una hoja de cálculo, la fórmula =SUMA(A1:A10) devuelve:",
+    "choices": {
+      "A": "El promedio de los valores de A1 a A10.",
+      "B": "La suma de los valores de A1 a A10.",
+      "C": "El valor más alto entre A1 y A10.",
+      "D": "El número de celdas con datos."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 10,
+    "type": "argumentativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "¿Por qué es útil usar tablas en lugar de tabuladores para organizar datos en Word?",
+    "choices": {
+      "A": "Porque las tablas ocupan menos espacio en el archivo.",
+      "B": "Porque mantienen la alineación aunque cambie el texto.",
+      "C": "Porque las tablas se imprimen más oscuras.",
+      "D": "Porque los tabuladores no existen en Word."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 11,
+    "type": "propositiva",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Para preparar una exposición con varias diapositivas con el mismo diseño y colores, ¿qué herramienta es la más eficiente?",
+    "choices": {
+      "A": "Crear cada diapositiva manualmente y pintarla.",
+      "B": "Usar una plantilla o patrón de diapositivas.",
+      "C": "Insertar todo como una sola imagen.",
+      "D": "Hacer la presentación en Word."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 12,
+    "type": "interpretativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Al combinar correspondencia en Word con un archivo de Excel, se logra:",
+    "choices": {
+      "A": "Personalizar muchos documentos con datos diferentes en pocos pasos.",
+      "B": "Convertir Word a imagen automáticamente.",
+      "C": "Imprimir todo a color sin tinta.",
+      "D": "Crear una hoja de cálculo nueva."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 13,
+    "type": "analisis_grafica",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "En una hoja de Excel, la celda A1 tiene 5, A2 tiene 10 y A3 tiene 15. La fórmula =PROMEDIO(A1:A3) da como resultado:",
+    "choices": {
+      "A": "5.",
+      "B": "10.",
+      "C": "15.",
+      "D": "30."
+    },
+    "answer": "B",
+    "image": "g7_q13_excel.png"
+  },
+  {
+    "id": 14,
+    "type": "comprension_texto",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Lee: 'La nube permite guardar archivos en internet para acceder desde cualquier dispositivo y compartirlos con otras personas.' Según el texto, una ventaja de la nube es:",
+    "choices": {
+      "A": "Que los archivos solo se ven en el computador donde se crearon.",
+      "B": "Acceder y compartir archivos desde varios dispositivos.",
+      "C": "No necesitar contraseña nunca.",
+      "D": "Que reemplaza al sistema operativo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 15,
+    "type": "interpretativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Un mapa conceptual se usa principalmente para:",
+    "choices": {
+      "A": "Representar relaciones entre conceptos con palabras de enlace.",
+      "B": "Resolver operaciones matemáticas.",
+      "C": "Diseñar logotipos para empresas.",
+      "D": "Reemplazar las imágenes en un libro."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 16,
+    "type": "interpretativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Un diagrama de flujo se utiliza para:",
+    "choices": {
+      "A": "Mostrar paso a paso un proceso o algoritmo.",
+      "B": "Resumir un texto largo en una sola palabra.",
+      "C": "Diseñar un afiche con muchos colores.",
+      "D": "Calcular promedios de notas."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 17,
+    "type": "argumentativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "¿Por qué un organizador gráfico ayuda a estudiar mejor que un texto largo?",
+    "choices": {
+      "A": "Porque tiene más palabras.",
+      "B": "Porque resume y muestra las relaciones entre ideas visualmente.",
+      "C": "Porque es más bonito.",
+      "D": "Porque siempre es a color."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 18,
+    "type": "propositiva",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Para mostrar las CAUSAS y EFECTOS de la contaminación del agua, ¿qué organizador gráfico es el más adecuado?",
+    "choices": {
+      "A": "Diagrama de espina de pescado (Ishikawa).",
+      "B": "Tabla de multiplicar.",
+      "C": "Gráfico de torta.",
+      "D": "Mapa de Colombia."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 19,
+    "type": "interpretativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Un cuadro sinóptico se caracteriza por:",
+    "choices": {
+      "A": "Tener llaves o corchetes que clasifican ideas de lo general a lo particular.",
+      "B": "Ser únicamente circular.",
+      "C": "Usar solo dibujos sin texto.",
+      "D": "Reemplazar a los exámenes."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 20,
+    "type": "analisis_grafica",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Observa: 'Animales' = {Vertebrados: mamíferos, aves, peces} y {Invertebrados: insectos, moluscos}. Este tipo de representación corresponde a un:",
+    "choices": {
+      "A": "Diagrama de barras.",
+      "B": "Cuadro sinóptico / mapa de clasificación.",
+      "C": "Gráfico circular.",
+      "D": "Línea de tiempo."
+    },
+    "answer": "B",
+    "image": "g7_q20_animales.png"
+  },
+  {
+    "id": 21,
+    "type": "argumentativa",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "¿Por qué el vidrio se usa para envases de alimentos y medicinas?",
+    "choices": {
+      "A": "Porque es inerte (no reacciona) y permite ver el contenido.",
+      "B": "Porque se rompe fácilmente y eso es bueno.",
+      "C": "Porque cambia el sabor del producto.",
+      "D": "Porque conserva mejor sin tapa."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 22,
+    "type": "propositiva",
+    "topic": "Materiales",
+    "difficulty": "media",
+    "text": "Para un proyecto escolar al aire libre que debe resistir lluvia y sol, ¿qué material es el más adecuado?",
+    "choices": {
+      "A": "Cartón sin recubrimiento.",
+      "B": "Plástico resistente o lona impermeable.",
+      "C": "Papel de seda.",
+      "D": "Telas delicadas."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 23,
+    "type": "interpretativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "En Google Drive / OneDrive, compartir un archivo con permiso de 'solo lectura' significa que la otra persona puede:",
+    "choices": {
+      "A": "Editar y borrar el archivo.",
+      "B": "Ver el archivo pero no modificarlo.",
+      "C": "Cambiar el nombre del propietario.",
+      "D": "Convertirlo en imagen automáticamente."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 24,
+    "type": "propositiva",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Para crear el informe del proyecto con varios autores trabajando al mismo tiempo, lo más adecuado es:",
+    "choices": {
+      "A": "Cada uno escribe en su computador y luego copia y pega.",
+      "B": "Usar un documento compartido en la nube (Docs / Word Online).",
+      "C": "Enviarse el archivo por correo cada vez que cambia algo.",
+      "D": "Imprimirlo y pasarlo de mano en mano."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 25,
+    "type": "analisis_grafica",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Observa: dos círculos que se cruzan. Izquierda solo: 'salado'. Intersección: 'comestible'. Derecha solo: 'dulce'. Este organizador es un:",
+    "choices": {
+      "A": "Diagrama de Venn.",
+      "B": "Gráfico de barras.",
+      "C": "Mapa conceptual.",
+      "D": "Línea de tiempo."
+    },
+    "answer": "A",
+    "image": "g7_q25_venn.png"
+  }
+]

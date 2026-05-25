@@ -1,0 +1,354 @@
+[
+  {
+    "id": 1,
+    "type": "interpretativa",
+    "topic": "Orientación vocacional",
+    "difficulty": "media",
+    "text": "La orientación vocacional busca principalmente:",
+    "choices": {
+      "A": "Imponerle al estudiante una profesión.",
+      "B": "Ayudar al estudiante a reconocer intereses, aptitudes y opciones para decidir su camino.",
+      "C": "Obligar al estudiante a estudiar una ingeniería.",
+      "D": "Reemplazar la decisión familiar."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 2,
+    "type": "argumentativa",
+    "topic": "Orientación vocacional",
+    "difficulty": "media",
+    "text": "¿Por qué se recomienda no elegir una carrera únicamente por la presión de amigos o familia?",
+    "choices": {
+      "A": "Porque la decisión vocacional sostenida se basa en intereses, aptitudes y proyecto personal.",
+      "B": "Porque la familia nunca acierta.",
+      "C": "Porque elegir lo mismo que un amigo es ilegal.",
+      "D": "Porque la presión social siempre lleva a la mejor carrera."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 3,
+    "type": "propositiva",
+    "topic": "Orientación vocacional",
+    "difficulty": "media",
+    "text": "Para decidir mejor tu carrera, ¿qué acción es la MÁS recomendable?",
+    "choices": {
+      "A": "Investigar el plan de estudios, hablar con profesionales del área y conocer el campo laboral.",
+      "B": "Elegir la más popular en redes sociales.",
+      "C": "Tirar una moneda al aire.",
+      "D": "Inscribirse a varias y elegir la primera que confirme."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 4,
+    "type": "comprension_texto",
+    "topic": "Orientación vocacional",
+    "difficulty": "media",
+    "text": "Lee: 'Las aptitudes son habilidades que se tienen o se pueden desarrollar; los intereses son aquello que motiva a la persona.' Si una persona disfruta resolver problemas matemáticos y los hace bien, tiene:",
+    "choices": {
+      "A": "Solo aptitud para esa área.",
+      "B": "Solo interés en esa área.",
+      "C": "Aptitud e interés alineados en esa área.",
+      "D": "Ni aptitud ni interés."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 5,
+    "type": "interpretativa",
+    "topic": "Proyecto de vida",
+    "difficulty": "media",
+    "text": "Un proyecto de vida se entiende como:",
+    "choices": {
+      "A": "Una lista de regalos para cumpleaños.",
+      "B": "Un plan personal con metas, valores y acciones a corto, mediano y largo plazo.",
+      "C": "Un currículum vitae.",
+      "D": "El cronograma escolar."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 6,
+    "type": "argumentativa",
+    "topic": "Proyecto de vida",
+    "difficulty": "media",
+    "text": "¿Por qué un proyecto de vida debe ser flexible?",
+    "choices": {
+      "A": "Porque las circunstancias y prioridades cambian con el tiempo.",
+      "B": "Porque no debe cumplirse.",
+      "C": "Porque debe rehacerse cada semana.",
+      "D": "Porque debe coincidir con el de otros."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 7,
+    "type": "propositiva",
+    "topic": "Proyecto de vida",
+    "difficulty": "media",
+    "text": "Para hacer una meta más alcanzable se recomienda que sea SMART. Una meta SMART es:",
+    "choices": {
+      "A": "'Quiero ser exitoso algún día'.",
+      "B": "'Ahorrar $50.000 mensuales durante 12 meses para iniciar el curso de inglés'.",
+      "C": "'Voy a ser feliz'.",
+      "D": "'Algún día estudiaré algo'."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 8,
+    "type": "comprension_texto",
+    "topic": "Proyecto de vida",
+    "difficulty": "media",
+    "text": "Lee: 'Los valores son los principios que guían el comportamiento y las decisiones de una persona.' Si alguien rechaza copiar en un examen porque considera importante la honestidad, está actuando desde:",
+    "choices": {
+      "A": "Una emoción pasajera.",
+      "B": "Un valor personal.",
+      "C": "Una imposición familiar.",
+      "D": "Un castigo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 9,
+    "type": "interpretativa",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "En pseudocódigo: 'Para i = 1 hasta 5: imprimir i*i'. La salida es:",
+    "choices": {
+      "A": "1 2 3 4 5.",
+      "B": "1 4 9 16 25.",
+      "C": "2 4 6 8 10.",
+      "D": "5 10 15 20 25."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 10,
+    "type": "analisis_grafica",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "Diagrama de flujo: Inicio → Leer A, B → Si A > B mostrar A sino mostrar B → Fin. Este algoritmo:",
+    "choices": {
+      "A": "Suma A y B.",
+      "B": "Muestra el mayor entre A y B.",
+      "C": "Muestra el menor entre A y B.",
+      "D": "No produce salida."
+    },
+    "answer": "B",
+    "image": "g11_q10_flujo.png"
+  },
+  {
+    "id": 11,
+    "type": "propositiva",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "Para evitar repetir código que se usa varias veces en un programa, la mejor estrategia es:",
+    "choices": {
+      "A": "Copiar y pegar cada vez que se necesite.",
+      "B": "Definir una función o procedimiento y reutilizarla.",
+      "C": "Borrar el código y volver a escribirlo.",
+      "D": "Aumentar el tamaño del archivo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 12,
+    "type": "interpretativa",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "En programación, una variable es:",
+    "choices": {
+      "A": "Un espacio con nombre que guarda un valor que puede cambiar.",
+      "B": "Un archivo de imagen.",
+      "C": "Una contraseña.",
+      "D": "El nombre del autor del programa."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 13,
+    "type": "interpretativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Una referencia ABSOLUTA en Excel se escribe con:",
+    "choices": {
+      "A": "Sólo el nombre de la celda (A1).",
+      "B": "Signos de dólar antes de la columna y/o fila ($A$1).",
+      "C": "Paréntesis alrededor (A1).",
+      "D": "Una arroba antes (@A1)."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 14,
+    "type": "argumentativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "¿Por qué proteger con contraseña un documento confidencial?",
+    "choices": {
+      "A": "Para que solo personas autorizadas accedan a la información sensible.",
+      "B": "Para que el documento se abra más rápido.",
+      "C": "Para reducir el tamaño del archivo.",
+      "D": "Porque lo exige el procesador de texto siempre."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 15,
+    "type": "propositiva",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Para colaborar en tiempo real con tu equipo en un documento, la herramienta más apropiada es:",
+    "choices": {
+      "A": "Word de escritorio sin compartir.",
+      "B": "Google Docs / Microsoft 365 compartido en la nube.",
+      "C": "Un documento impreso pasado de mano en mano.",
+      "D": "Un PDF cerrado."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 16,
+    "type": "comprension_texto",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Lee: 'Los gráficos en hojas de cálculo permiten visualizar datos numéricos para identificar tendencias o comparaciones.' Para mostrar la evolución de las ventas mes a mes, el gráfico ideal es:",
+    "choices": {
+      "A": "Gráfico de pastel.",
+      "B": "Gráfico de líneas.",
+      "C": "Gráfico de dispersión sin orden.",
+      "D": "Mapa de calor."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 17,
+    "type": "interpretativa",
+    "topic": "HTML",
+    "difficulty": "media",
+    "text": "En HTML, la etiqueta <h1> se usa para:",
+    "choices": {
+      "A": "Crear una imagen.",
+      "B": "Definir el encabezado principal (título de mayor jerarquía).",
+      "C": "Insertar un enlace.",
+      "D": "Crear una lista numerada."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 18,
+    "type": "interpretativa",
+    "topic": "HTML",
+    "difficulty": "media",
+    "text": "Para crear un hipervínculo a https://example.com, la etiqueta correcta es:",
+    "choices": {
+      "A": "<link to=\"https://example.com\">",
+      "B": "<a href=\"https://example.com\">texto</a>",
+      "C": "<url>https://example.com</url>",
+      "D": "<href=\"https://example.com\">"
+    },
+    "answer": "B"
+  },
+  {
+    "id": 19,
+    "type": "analisis_grafica",
+    "topic": "HTML",
+    "difficulty": "media",
+    "text": "Observa el código: <ul><li>Manzana</li><li>Banano</li><li>Pera</li></ul>. ¿Qué se muestra en pantalla?",
+    "choices": {
+      "A": "Una tabla con 3 filas.",
+      "B": "Una lista numerada 1, 2, 3.",
+      "C": "Una lista con viñetas: Manzana, Banano, Pera.",
+      "D": "Un formulario con 3 campos."
+    },
+    "answer": "C",
+    "image": "g11_q19_html.png"
+  },
+  {
+    "id": 20,
+    "type": "propositiva",
+    "topic": "HTML",
+    "difficulty": "media",
+    "text": "Para que una página HTML se vea bien en celular y computador, lo más adecuado es:",
+    "choices": {
+      "A": "Definir solo anchos en píxeles fijos.",
+      "B": "Usar diseño responsivo con CSS (media queries) y la meta viewport.",
+      "C": "Usar únicamente tablas para todo.",
+      "D": "Diseñarla solo para una resolución."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 21,
+    "type": "propositiva",
+    "topic": "Orientación vocacional",
+    "difficulty": "media",
+    "text": "Si tienes dudas entre dos carreras, una acción útil es:",
+    "choices": {
+      "A": "Asistir a charlas, ferias universitarias y hacer entrevistas a profesionales de ambas.",
+      "B": "Inscribirte en una al azar.",
+      "C": "No hacer nada y esperar a graduarte.",
+      "D": "Dejar la decisión solo a tu familia."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 22,
+    "type": "argumentativa",
+    "topic": "Proyecto de vida",
+    "difficulty": "media",
+    "text": "¿Por qué los hábitos diarios son clave en el cumplimiento de un proyecto de vida?",
+    "choices": {
+      "A": "Porque las pequeñas acciones constantes producen grandes resultados a largo plazo.",
+      "B": "Porque los hábitos no importan, solo los grandes eventos.",
+      "C": "Porque hacen perder tiempo.",
+      "D": "Porque obligan a vivir igual cada día sin metas."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 23,
+    "type": "interpretativa",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "Un 'arreglo' o 'lista' en programación es:",
+    "choices": {
+      "A": "Un único valor con nombre.",
+      "B": "Una colección ordenada de varios valores accesibles por índice.",
+      "C": "Una contraseña encriptada.",
+      "D": "El sistema operativo del programa."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 24,
+    "type": "propositiva",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Para generar un certificado personalizado a 200 estudiantes con su nombre y código, lo más eficiente es:",
+    "choices": {
+      "A": "Escribir cada certificado a mano.",
+      "B": "Usar combinación de correspondencia con una base de datos en Sheets/Excel.",
+      "C": "Imprimir 200 certificados idénticos.",
+      "D": "Pedir a cada estudiante que llene el suyo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 25,
+    "type": "interpretativa",
+    "topic": "HTML",
+    "difficulty": "media",
+    "text": "En HTML, la etiqueta <img> sirve para:",
+    "choices": {
+      "A": "Insertar una imagen indicando su ruta con el atributo src.",
+      "B": "Crear un encabezado.",
+      "C": "Definir un enlace.",
+      "D": "Insertar un párrafo."
+    },
+    "answer": "A"
+  }
+]

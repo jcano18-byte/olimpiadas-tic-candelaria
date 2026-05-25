@@ -1,0 +1,355 @@
+[
+  {
+    "id": 1,
+    "type": "interpretativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Para presentar un plan estratégico de una empresa con misión, visión y objetivos, el organizador más adecuado es:",
+    "choices": {
+      "A": "Diagrama de Venn.",
+      "B": "Mapa estratégico o cuadro sinóptico jerárquico.",
+      "C": "Histograma.",
+      "D": "Diagrama de tallo y hoja."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 2,
+    "type": "analisis_grafica",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Un diagrama muestra: 'Problema central' al centro y 6 ramas con causas (Personas, Procesos, Tecnología, Materiales, Medición, Entorno). Este corresponde a:",
+    "choices": {
+      "A": "Mapa mental clásico.",
+      "B": "Diagrama de Ishikawa (espina de pescado).",
+      "C": "Gráfico de barras agrupado.",
+      "D": "Gráfico circular."
+    },
+    "answer": "B",
+    "image": "g10_q2_ishikawa.png"
+  },
+  {
+    "id": 3,
+    "type": "propositiva",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Para comparar 3 propuestas de negocio según costo, riesgo y rentabilidad, el organizador más útil es:",
+    "choices": {
+      "A": "Línea de tiempo.",
+      "B": "Tabla / matriz comparativa.",
+      "C": "Mapa de un solo concepto.",
+      "D": "Diagrama de Goldberg."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 4,
+    "type": "interpretativa",
+    "topic": "Google Apps Script",
+    "difficulty": "media",
+    "text": "Google Apps Script es principalmente:",
+    "choices": {
+      "A": "Una hoja de cálculo nueva.",
+      "B": "Una plataforma de scripting basada en JavaScript para automatizar productos de Google Workspace.",
+      "C": "Un sistema operativo de Google.",
+      "D": "Un navegador web."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 5,
+    "type": "interpretativa",
+    "topic": "Google Apps Script",
+    "difficulty": "media",
+    "text": "Para acceder a una hoja activa dentro de Apps Script se usa:",
+    "choices": {
+      "A": "SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();",
+      "B": "document.getElementById('hoja');",
+      "C": "Excel.open('hoja');",
+      "D": "Sheets.activate();"
+    },
+    "answer": "A"
+  },
+  {
+    "id": 6,
+    "type": "argumentativa",
+    "topic": "Google Apps Script",
+    "difficulty": "media",
+    "text": "¿Por qué Apps Script es útil para automatizar procesos en un colegio?",
+    "choices": {
+      "A": "Porque integra Sheets, Forms, Drive y Gmail sin servidores propios.",
+      "B": "Porque imprime documentos sin tinta.",
+      "C": "Porque sustituye al sistema operativo Windows.",
+      "D": "Porque genera energía eléctrica."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 7,
+    "type": "propositiva",
+    "topic": "Google Apps Script",
+    "difficulty": "media",
+    "text": "Para enviar automáticamente un correo a cada estudiante con su nota al guardar la hoja, ¿qué deberías hacer?",
+    "choices": {
+      "A": "Imprimir las notas y entregarlas a mano (no automatiza).",
+      "B": "Escribir una función en Apps Script con MailApp.sendEmail y dispararla con onEdit u onChange.",
+      "C": "Pegar las notas en una imagen.",
+      "D": "Usar Word para combinar correspondencia desde el celular."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 8,
+    "type": "interpretativa",
+    "topic": "Plan de negocios",
+    "difficulty": "media",
+    "text": "El 'mercado objetivo' (target) de un plan de negocios se refiere a:",
+    "choices": {
+      "A": "El presupuesto total del negocio.",
+      "B": "El grupo específico de clientes a quienes va dirigido el producto o servicio.",
+      "C": "El proveedor principal.",
+      "D": "Los empleados de la empresa."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 9,
+    "type": "argumentativa",
+    "topic": "Plan de negocios",
+    "difficulty": "media",
+    "text": "¿Por qué un análisis DOFA es clave antes de iniciar un negocio?",
+    "choices": {
+      "A": "Porque obliga a fijar el precio más alto posible.",
+      "B": "Porque permite identificar fortalezas, debilidades, oportunidades y amenazas antes de invertir.",
+      "C": "Porque garantiza que el negocio nunca falle.",
+      "D": "Porque elimina la necesidad de mercadeo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 10,
+    "type": "analisis_grafica",
+    "topic": "Plan de negocios",
+    "difficulty": "media",
+    "text": "Tabla: Ingresos mensuales 5.000.000, Costos fijos 2.000.000, Costos variables 1.500.000. La utilidad mensual es:",
+    "choices": {
+      "A": "1.500.000.",
+      "B": "2.000.000.",
+      "C": "2.500.000.",
+      "D": "3.000.000."
+    },
+    "answer": "A",
+    "image": "g10_q10_finanzas.png"
+  },
+  {
+    "id": 11,
+    "type": "interpretativa",
+    "topic": "Imagen corporativa",
+    "difficulty": "media",
+    "text": "La imagen corporativa de una empresa incluye principalmente:",
+    "choices": {
+      "A": "Solo el logo.",
+      "B": "Logo, colores, tipografía, tono de comunicación y valores que se transmiten.",
+      "C": "Solo el nombre del dueño.",
+      "D": "Solo la dirección física."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 12,
+    "type": "argumentativa",
+    "topic": "Imagen corporativa",
+    "difficulty": "media",
+    "text": "¿Por qué la coherencia visual es clave en la imagen corporativa?",
+    "choices": {
+      "A": "Porque ahorra dinero al imprimir.",
+      "B": "Porque genera reconocimiento y confianza en los clientes.",
+      "C": "Porque permite cambiar de logo cada mes.",
+      "D": "Porque obliga a usar colores opacos."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 13,
+    "type": "propositiva",
+    "topic": "Imagen corporativa",
+    "difficulty": "media",
+    "text": "Para una marca dirigida a niños de educación inicial, ¿qué propuesta visual es la más adecuada?",
+    "choices": {
+      "A": "Tipografías góticas y colores oscuros.",
+      "B": "Colores vivos, formas redondeadas y tipografía amigable.",
+      "C": "Solo blanco y negro con texto en latín.",
+      "D": "Diseño con letras muy pequeñas."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 14,
+    "type": "interpretativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "La función =BUSCARV (o VLOOKUP) en hojas de cálculo se usa para:",
+    "choices": {
+      "A": "Buscar un valor en la primera columna de una tabla y devolver otro valor de la misma fila.",
+      "B": "Insertar imágenes en una celda.",
+      "C": "Cambiar el color de la celda.",
+      "D": "Convertir Excel en PDF."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 15,
+    "type": "argumentativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "¿Por qué se recomienda usar tablas dinámicas para analizar grandes volúmenes de datos?",
+    "choices": {
+      "A": "Porque permiten resumir, filtrar y agrupar datos rápidamente sin alterar el origen.",
+      "B": "Porque imprimen más rápido.",
+      "C": "Porque eliminan los datos duplicados del archivo original.",
+      "D": "Porque solo funcionan con un dato."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 16,
+    "type": "propositiva",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "Para enviar una carta personalizada a 300 padres de familia, lo más eficiente es:",
+    "choices": {
+      "A": "Escribir cada carta a mano.",
+      "B": "Usar combinación de correspondencia entre Word y Excel/Sheets.",
+      "C": "Llamar uno por uno por teléfono.",
+      "D": "Imprimir 300 copias idénticas sin personalización."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 17,
+    "type": "interpretativa",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "Un algoritmo es:",
+    "choices": {
+      "A": "Cualquier programa hecho en JavaScript.",
+      "B": "Una secuencia finita y ordenada de pasos para resolver un problema.",
+      "C": "Un tipo de virus informático.",
+      "D": "Un sinónimo de archivo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 18,
+    "type": "interpretativa",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "En pseudocódigo: 'Si nota >= 3.0 escribir \"Aprueba\" sino escribir \"Reprueba\"'. Si nota = 2.9, la salida es:",
+    "choices": {
+      "A": "Aprueba.",
+      "B": "Reprueba.",
+      "C": "No imprime nada.",
+      "D": "Error."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 19,
+    "type": "analisis_grafica",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "Un diagrama de flujo muestra: Inicio → Pedir N → S=0, i=1 → Mientras i<=N: S=S+i, i=i+1 → Mostrar S → Fin. Si N=4, ¿cuál es el valor final de S?",
+    "choices": {
+      "A": "4.",
+      "B": "6.",
+      "C": "10.",
+      "D": "16."
+    },
+    "answer": "C",
+    "image": "g10_q19_flujo.png"
+  },
+  {
+    "id": 20,
+    "type": "propositiva",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "Para diseñar un algoritmo que calcule el promedio de N notas, lo correcto es:",
+    "choices": {
+      "A": "Sumar todas las notas y dividir entre la cantidad de notas (N).",
+      "B": "Sumar las notas sin dividir.",
+      "C": "Restar la nota más alta menos la más baja.",
+      "D": "Multiplicar todas las notas."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 21,
+    "type": "argumentativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "¿Por qué un diagrama de Gantt es útil en la gestión de proyectos?",
+    "choices": {
+      "A": "Porque muestra tareas con sus fechas de inicio y fin sobre una línea de tiempo, facilitando el seguimiento.",
+      "B": "Porque reemplaza al equipo de trabajo.",
+      "C": "Porque no requiere planificación previa.",
+      "D": "Porque solo sirve para una persona."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 22,
+    "type": "interpretativa",
+    "topic": "Google Apps Script",
+    "difficulty": "media",
+    "text": "Un 'trigger' (disparador) en Apps Script permite:",
+    "choices": {
+      "A": "Cerrar la cuenta de Google.",
+      "B": "Ejecutar una función automáticamente al ocurrir un evento (al abrir, al editar, por tiempo).",
+      "C": "Cambiar el tema visual de Drive.",
+      "D": "Eliminar archivos sin permiso."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 23,
+    "type": "propositiva",
+    "topic": "Plan de negocios",
+    "difficulty": "media",
+    "text": "Para validar la idea de negocio antes de invertir, lo más recomendable es:",
+    "choices": {
+      "A": "Hacer un MVP / prototipo y probarlo con clientes reales.",
+      "B": "Comprar maquinaria costosa de inmediato.",
+      "C": "Producir 10.000 unidades sin probar.",
+      "D": "Lanzar una campaña masiva antes de tener el producto."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 24,
+    "type": "argumentativa",
+    "topic": "Ofimática",
+    "difficulty": "media",
+    "text": "¿Por qué se recomienda usar validación de datos al construir formularios en Sheets?",
+    "choices": {
+      "A": "Para que solo se acepten datos válidos y evitar errores en el análisis.",
+      "B": "Para hacer que el archivo pese más.",
+      "C": "Para imprimir en color automáticamente.",
+      "D": "Porque obliga al usuario a no escribir."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 25,
+    "type": "interpretativa",
+    "topic": "Algoritmos",
+    "difficulty": "media",
+    "text": "En programación, un ciclo 'mientras' (while) se ejecuta:",
+    "choices": {
+      "A": "Una sola vez.",
+      "B": "Mientras la condición sea verdadera.",
+      "C": "Solo si la condición es falsa.",
+      "D": "Nunca."
+    },
+    "answer": "B"
+  }
+]

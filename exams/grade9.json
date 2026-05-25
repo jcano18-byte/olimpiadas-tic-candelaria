@@ -1,0 +1,354 @@
+[
+  {
+    "id": 1,
+    "type": "interpretativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Una línea de tiempo es el organizador gráfico más adecuado para representar:",
+    "choices": {
+      "A": "Procesos y eventos en orden cronológico.",
+      "B": "Causas y consecuencias de un fenómeno.",
+      "C": "Una operación matemática.",
+      "D": "Categorías sin relación temporal."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 2,
+    "type": "interpretativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Un diagrama de Venn se usa para representar:",
+    "choices": {
+      "A": "Información organizada en filas y columnas.",
+      "B": "Semejanzas y diferencias entre dos o más conjuntos.",
+      "C": "Procesos que tienen un único paso.",
+      "D": "Operaciones aritméticas."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 3,
+    "type": "argumentativa",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "¿Por qué un mapa mental difiere de un mapa conceptual?",
+    "choices": {
+      "A": "Porque el mapa mental parte de una idea central y usa imágenes y palabras clave libres, mientras el mapa conceptual usa enlaces y jerarquía estricta.",
+      "B": "Porque el mapa mental usa solo números y el mapa conceptual solo letras.",
+      "C": "Porque uno es a color y el otro en blanco y negro.",
+      "D": "Porque solo el mapa mental sirve para estudiar."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 4,
+    "type": "propositiva",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Para mostrar el flujo de pasos de un algoritmo a tus compañeros, ¿qué organizador es el más adecuado?",
+    "choices": {
+      "A": "Diagrama de flujo.",
+      "B": "Diagrama de barras.",
+      "C": "Gráfico circular.",
+      "D": "Línea de tiempo invertida."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 5,
+    "type": "analisis_grafica",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Observa: 'Lectura -> Análisis -> Síntesis -> Producto final'. Esta secuencia con flechas representa principalmente:",
+    "choices": {
+      "A": "Un mapa mental.",
+      "B": "Un diagrama de procesos / flujo.",
+      "C": "Un mapa conceptual con jerarquía.",
+      "D": "Un diagrama de Venn."
+    },
+    "answer": "B",
+    "image": "g9_q5_flujo.png"
+  },
+  {
+    "id": 6,
+    "type": "interpretativa",
+    "topic": "Innovación",
+    "difficulty": "media",
+    "text": "Innovar significa principalmente:",
+    "choices": {
+      "A": "Copiar exactamente un producto que ya existe.",
+      "B": "Crear o mejorar un producto, servicio o proceso para generar valor.",
+      "C": "Realizar la misma actividad sin cambios.",
+      "D": "Cambiar solo el nombre de un producto."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 7,
+    "type": "interpretativa",
+    "topic": "Innovación",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes es un ejemplo de innovación disruptiva?",
+    "choices": {
+      "A": "Cambiar el color de la portada de un cuaderno.",
+      "B": "El paso del teléfono fijo al teléfono móvil inteligente.",
+      "C": "Subir el precio de un producto.",
+      "D": "Imprimir un volante."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 8,
+    "type": "argumentativa",
+    "topic": "Innovación",
+    "difficulty": "media",
+    "text": "¿Por qué la innovación es importante para una empresa?",
+    "choices": {
+      "A": "Porque le permite adaptarse al cambio y ser competitiva.",
+      "B": "Porque le exige bajar siempre los precios.",
+      "C": "Porque obliga a despedir empleados.",
+      "D": "Porque elimina la necesidad de hacer publicidad."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 9,
+    "type": "propositiva",
+    "topic": "Innovación",
+    "difficulty": "media",
+    "text": "Para innovar en la cafetería del colegio, ¿qué propuesta es la más razonable como primer paso?",
+    "choices": {
+      "A": "Cambiar todo el menú sin avisar.",
+      "B": "Encuestar a los estudiantes y observar qué necesidades no se atienden.",
+      "C": "Subir todos los precios.",
+      "D": "Eliminar todos los productos."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 10,
+    "type": "comprension_texto",
+    "topic": "Innovación",
+    "difficulty": "media",
+    "text": "Lee: 'La innovación incremental mejora algo existente con pequeños cambios; la innovación radical crea algo totalmente nuevo.' Cambiar la cámara de un celular para que tome mejores fotos es:",
+    "choices": {
+      "A": "Innovación radical.",
+      "B": "Innovación incremental.",
+      "C": "Imitación.",
+      "D": "No es innovación."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 11,
+    "type": "interpretativa",
+    "topic": "Inteligencia artificial",
+    "difficulty": "media",
+    "text": "La inteligencia artificial (IA) se refiere a:",
+    "choices": {
+      "A": "Sistemas que imitan capacidades humanas como aprender, decidir o reconocer patrones.",
+      "B": "Computadores que se compran únicamente en el extranjero.",
+      "C": "Programas que solo suman números.",
+      "D": "Robots con piel humana."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 12,
+    "type": "interpretativa",
+    "topic": "Inteligencia artificial",
+    "difficulty": "media",
+    "text": "Un ejemplo cotidiano de IA es:",
+    "choices": {
+      "A": "Una calculadora básica.",
+      "B": "El asistente de voz que entiende preguntas.",
+      "C": "Un cuaderno cuadriculado.",
+      "D": "Un bolígrafo de tinta."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 13,
+    "type": "argumentativa",
+    "topic": "Inteligencia artificial",
+    "difficulty": "media",
+    "text": "¿Por qué se dice que la IA 'aprende'?",
+    "choices": {
+      "A": "Porque ajusta sus respuestas a partir de grandes cantidades de datos y ejemplos.",
+      "B": "Porque tiene conciencia y emociones propias.",
+      "C": "Porque memoriza el manual del computador.",
+      "D": "Porque alguien la programa cada hora del día."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 14,
+    "type": "propositiva",
+    "topic": "Inteligencia artificial",
+    "difficulty": "media",
+    "text": "Al usar IA para una tarea escolar, ¿cuál es el uso más ético y formativo?",
+    "choices": {
+      "A": "Pedir a la IA que escriba todo y entregarlo como propio.",
+      "B": "Usarla para explorar ideas, verificar conceptos y luego producir contenido propio citando la herramienta.",
+      "C": "Copiar y pegar sin leer.",
+      "D": "Inventar fuentes con ayuda de la IA."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 15,
+    "type": "comprension_texto",
+    "topic": "Inteligencia artificial",
+    "difficulty": "media",
+    "text": "Lee: 'Una IA no entiende el mundo como un humano; reconoce patrones en datos y puede equivocarse o tener sesgos.' Una consecuencia razonable es:",
+    "choices": {
+      "A": "Aceptar siempre lo que diga la IA sin revisar.",
+      "B": "Verificar la información que ofrece la IA con otras fuentes.",
+      "C": "No volver a usar nunca la tecnología.",
+      "D": "Creer que la IA es infalible."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 16,
+    "type": "interpretativa",
+    "topic": "Evolución de la tecnología",
+    "difficulty": "media",
+    "text": "¿Cuál es el orden cronológico correcto?",
+    "choices": {
+      "A": "Imprenta → Telégrafo → Teléfono → Internet → Celular inteligente.",
+      "B": "Internet → Telégrafo → Imprenta → Celular → Teléfono.",
+      "C": "Teléfono → Imprenta → Internet → Telégrafo.",
+      "D": "Celular → Internet → Imprenta → Telégrafo."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 17,
+    "type": "argumentativa",
+    "topic": "Evolución de la tecnología",
+    "difficulty": "media",
+    "text": "¿Por qué la rueda se considera una de las invenciones más importantes de la historia?",
+    "choices": {
+      "A": "Porque cambió el transporte, la producción y muchas máquinas posteriores.",
+      "B": "Porque es redonda.",
+      "C": "Porque se vende fácilmente.",
+      "D": "Porque sustituye al fuego."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 18,
+    "type": "analisis_grafica",
+    "topic": "Evolución de la tecnología",
+    "difficulty": "media",
+    "text": "Una línea de tiempo muestra: 1450 imprenta, 1876 teléfono, 1969 ARPANET, 2007 iPhone. ¿Cuántos años transcurrieron entre el teléfono y ARPANET?",
+    "choices": {
+      "A": "76.",
+      "B": "93.",
+      "C": "100.",
+      "D": "138."
+    },
+    "answer": "B",
+    "image": "g9_q18_linea.png"
+  },
+  {
+    "id": 19,
+    "type": "comprension_texto",
+    "topic": "Evolución de la tecnología",
+    "difficulty": "media",
+    "text": "Lee: 'La revolución digital aceleró la comunicación y el acceso a la información, pero también generó retos como la privacidad y la brecha digital.' Una conclusión válida es:",
+    "choices": {
+      "A": "La tecnología siempre trae solo beneficios.",
+      "B": "Los avances tecnológicos suelen traer también desafíos sociales.",
+      "C": "La tecnología se debe prohibir.",
+      "D": "La brecha digital ya no existe."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 20,
+    "type": "propositiva",
+    "topic": "Evolución de la tecnología",
+    "difficulty": "media",
+    "text": "Si tuvieras que proponer una tecnología que mejore la educación en tu colegio en los próximos 5 años, ¿cuál sería la más realista y de mayor impacto?",
+    "choices": {
+      "A": "Reemplazar a todos los docentes por robots.",
+      "B": "Aulas con conectividad estable, materiales digitales y formación docente continua.",
+      "C": "Eliminar los cuadernos y solo usar celulares sin reglas.",
+      "D": "Cerrar la biblioteca por completo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 21,
+    "type": "propositiva",
+    "topic": "Organizadores gráficos",
+    "difficulty": "media",
+    "text": "Para comparar las características de tres sistemas operativos, el organizador más adecuado es:",
+    "choices": {
+      "A": "Una matriz o tabla comparativa.",
+      "B": "Un solo gráfico circular.",
+      "C": "Una línea de tiempo.",
+      "D": "Un mapa de Colombia."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 22,
+    "type": "argumentativa",
+    "topic": "Innovación",
+    "difficulty": "media",
+    "text": "¿Por qué muchas innovaciones surgen al observar problemas cotidianos?",
+    "choices": {
+      "A": "Porque los problemas reales revelan necesidades que pueden resolverse con soluciones nuevas.",
+      "B": "Porque los problemas son siempre divertidos.",
+      "C": "Porque no se requiere ningún análisis previo.",
+      "D": "Porque las grandes ideas surgen sin observar el entorno."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 23,
+    "type": "propositiva",
+    "topic": "Inteligencia artificial",
+    "difficulty": "media",
+    "text": "Si vas a usar IA para resumir un texto largo, lo más responsable es:",
+    "choices": {
+      "A": "Confiar al 100% en el resumen sin leer el original.",
+      "B": "Revisar el resumen contrastándolo con el texto original y citar la herramienta.",
+      "C": "Publicar el resumen como propio sin verificar.",
+      "D": "Pedirle inventar partes del texto."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 24,
+    "type": "interpretativa",
+    "topic": "Inteligencia artificial",
+    "difficulty": "media",
+    "text": "Un 'sesgo' en una IA significa que:",
+    "choices": {
+      "A": "Trabaja sin energía.",
+      "B": "Sus resultados pueden favorecer o discriminar injustamente debido a los datos con que se entrenó.",
+      "C": "Habla muy rápido.",
+      "D": "Solo funciona en inglés."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 25,
+    "type": "comprension_texto",
+    "topic": "Evolución de la tecnología",
+    "difficulty": "media",
+    "text": "Lee: 'Cada salto tecnológico (escritura, imprenta, electricidad, internet) cambió la forma en que las personas trabajan, aprenden y se comunican.' Una conclusión válida es:",
+    "choices": {
+      "A": "La tecnología solo afecta el trabajo, no la vida diaria.",
+      "B": "Los grandes saltos tecnológicos transforman varios aspectos de la sociedad.",
+      "C": "La imprenta no fue importante.",
+      "D": "Internet es el único cambio relevante."
+    },
+    "answer": "B"
+  }
+]

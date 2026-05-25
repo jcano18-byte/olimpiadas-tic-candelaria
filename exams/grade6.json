@@ -1,0 +1,353 @@
+[
+  {
+    "id": 1,
+    "type": "interpretativa",
+    "topic": "Software y hardware",
+    "difficulty": "media",
+    "text": "Un estudiante dice: 'mi computador no enciende, debe ser un problema de software'. ¿Cuál afirmación es correcta?",
+    "choices": {
+      "A": "Tiene razón, el software controla el encendido físico del equipo.",
+      "B": "El encendido depende principalmente del hardware (fuente, batería, botón).",
+      "C": "El sistema operativo enciende los circuitos eléctricos del computador.",
+      "D": "Los navegadores son los responsables del arranque del equipo."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 2,
+    "type": "interpretativa",
+    "topic": "Software y hardware",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes grupos contiene SOLO elementos de hardware?",
+    "choices": {
+      "A": "Mouse, monitor, teclado, disco duro.",
+      "B": "Word, Chrome, Windows, monitor.",
+      "C": "Procesador, RAM, sistema operativo.",
+      "D": "Antivirus, impresora, USB."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 3,
+    "type": "argumentativa",
+    "topic": "Software y hardware",
+    "difficulty": "media",
+    "text": "¿Por qué un computador necesita software además de hardware?",
+    "choices": {
+      "A": "Porque el software hace que el hardware tenga instrucciones para funcionar.",
+      "B": "Porque el software reemplaza piezas dañadas del hardware.",
+      "C": "Porque sin software el computador consume más energía.",
+      "D": "Porque el software se imprime dentro del procesador."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 4,
+    "type": "propositiva",
+    "topic": "Software y hardware",
+    "difficulty": "media",
+    "text": "Un equipo del colegio se vuelve muy lento al abrir varias pestañas. ¿Cuál es la propuesta más razonable?",
+    "choices": {
+      "A": "Cambiar el monitor por uno más grande.",
+      "B": "Ampliar la memoria RAM o cerrar pestañas innecesarias.",
+      "C": "Instalar otro teclado USB.",
+      "D": "Cambiar el navegador por uno con más colores."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 5,
+    "type": "comprension_texto",
+    "topic": "Software y hardware",
+    "difficulty": "media",
+    "text": "Lee: 'El hardware es la parte física del computador y el software es el conjunto de programas que le dicen qué hacer; ambos dependen entre sí.' Según el texto, ¿qué afirmación es verdadera?",
+    "choices": {
+      "A": "El software puede funcionar sin hardware.",
+      "B": "Hardware y software son independientes.",
+      "C": "El hardware y el software se necesitan mutuamente.",
+      "D": "El hardware ejecuta programas sin necesidad de software."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 6,
+    "type": "interpretativa",
+    "topic": "Artefactos tecnológicos",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes NO se considera un artefacto tecnológico?",
+    "choices": {
+      "A": "Una bicicleta.",
+      "B": "Un lápiz.",
+      "C": "Una piedra encontrada en el río.",
+      "D": "Un microondas."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 7,
+    "type": "argumentativa",
+    "topic": "Artefactos tecnológicos",
+    "difficulty": "media",
+    "text": "¿Por qué un artefacto se considera tecnológico?",
+    "choices": {
+      "A": "Porque es muy moderno y costoso.",
+      "B": "Porque es creado por el ser humano para resolver una necesidad.",
+      "C": "Porque siempre funciona con electricidad.",
+      "D": "Porque se vende en almacenes especializados."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 8,
+    "type": "propositiva",
+    "topic": "Artefactos tecnológicos",
+    "difficulty": "media",
+    "text": "Si quisieras diseñar un artefacto para regar una huerta escolar, ¿cuál sería el primer paso?",
+    "choices": {
+      "A": "Comprar materiales costosos antes de pensar.",
+      "B": "Identificar la necesidad y los recursos disponibles.",
+      "C": "Pintarlo de un color llamativo.",
+      "D": "Pedir permiso al rector."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 9,
+    "type": "analisis_grafica",
+    "topic": "Artefactos tecnológicos",
+    "difficulty": "media",
+    "text": "Una tabla muestra: Lavadora 1 hora=1.2 kWh, TV 1 hora=0.1 kWh, Bombillo LED 1 hora=0.01 kWh. ¿Qué artefacto consume MENOS energía por hora?",
+    "choices": {
+      "A": "Lavadora.",
+      "B": "Televisor.",
+      "C": "Bombillo LED.",
+      "D": "Todos consumen igual."
+    },
+    "answer": "C",
+    "image": "g6_q9_consumo.png"
+  },
+  {
+    "id": 10,
+    "type": "interpretativa",
+    "topic": "Artefactos tecnológicos",
+    "difficulty": "media",
+    "text": "Una lupa, unas tijeras y una palanca son ejemplos de:",
+    "choices": {
+      "A": "Artefactos digitales.",
+      "B": "Artefactos tecnológicos sencillos.",
+      "C": "Artefactos electrónicos.",
+      "D": "Artefactos sin función definida."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 11,
+    "type": "interpretativa",
+    "topic": "Sistema operativo",
+    "difficulty": "media",
+    "text": "¿Cuál es la función principal del sistema operativo?",
+    "choices": {
+      "A": "Diseñar páginas web.",
+      "B": "Gestionar el hardware y permitir ejecutar programas.",
+      "C": "Reproducir música sin parar.",
+      "D": "Conectar la impresora a internet."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 12,
+    "type": "interpretativa",
+    "topic": "Sistema operativo",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes es un sistema operativo?",
+    "choices": {
+      "A": "Google Chrome.",
+      "B": "Microsoft Word.",
+      "C": "Android.",
+      "D": "YouTube."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 13,
+    "type": "argumentativa",
+    "topic": "Sistema operativo",
+    "difficulty": "media",
+    "text": "¿Por qué es importante mantener actualizado el sistema operativo?",
+    "choices": {
+      "A": "Para cambiar de color el fondo de pantalla.",
+      "B": "Para corregir errores y mejorar la seguridad.",
+      "C": "Para aumentar la velocidad de internet del barrio.",
+      "D": "Para que la batería dure menos."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 14,
+    "type": "propositiva",
+    "topic": "Sistema operativo",
+    "difficulty": "media",
+    "text": "Tu computador en clase tiene archivos desordenados en el escritorio. ¿Cuál sería la mejor solución?",
+    "choices": {
+      "A": "Eliminarlos todos sin revisar.",
+      "B": "Crear carpetas por tema y mover los archivos allí.",
+      "C": "Cambiar el fondo de pantalla.",
+      "D": "Reiniciar el computador varias veces."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 15,
+    "type": "interpretativa",
+    "topic": "Sistema operativo",
+    "difficulty": "media",
+    "text": "El ícono de 'papelera de reciclaje' del sistema operativo sirve para:",
+    "choices": {
+      "A": "Guardar permanentemente los archivos importantes.",
+      "B": "Almacenar temporalmente archivos eliminados que se pueden recuperar.",
+      "C": "Comprimir archivos para enviarlos por correo.",
+      "D": "Compartir archivos en la red social."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 16,
+    "type": "interpretativa",
+    "topic": "Navegadores",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes es un navegador web?",
+    "choices": {
+      "A": "Excel.",
+      "B": "Firefox.",
+      "C": "Windows.",
+      "D": "WhatsApp."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 17,
+    "type": "argumentativa",
+    "topic": "Navegadores",
+    "difficulty": "media",
+    "text": "¿Por qué se recomienda cerrar sesión al usar un navegador en un computador público?",
+    "choices": {
+      "A": "Para ahorrar batería.",
+      "B": "Para evitar que otra persona acceda a tus cuentas.",
+      "C": "Para que la página cargue más rápido la próxima vez.",
+      "D": "Porque el navegador se daña si no se cierra sesión."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 18,
+    "type": "propositiva",
+    "topic": "Navegadores",
+    "difficulty": "media",
+    "text": "Necesitas buscar información confiable para una exposición. ¿Qué estrategia es la mejor?",
+    "choices": {
+      "A": "Tomar la primera página que aparezca.",
+      "B": "Comparar varias fuentes y revisar quién las publica.",
+      "C": "Copiar lo primero que aparezca en redes sociales.",
+      "D": "Buscar solo en sitios con muchos anuncios."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 19,
+    "type": "interpretativa",
+    "topic": "Navegadores",
+    "difficulty": "media",
+    "text": "El símbolo del candado (🔒) en la barra de un navegador indica que:",
+    "choices": {
+      "A": "El sitio web está bloqueado.",
+      "B": "La conexión con ese sitio es cifrada (HTTPS).",
+      "C": "El sitio no está disponible.",
+      "D": "La página requiere contraseña."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 20,
+    "type": "comprension_texto",
+    "topic": "Navegadores",
+    "difficulty": "media",
+    "text": "Lee: 'Una pestaña en el navegador permite tener varias páginas web abiertas a la vez en una misma ventana.' Según el texto, ¿qué afirmación es verdadera?",
+    "choices": {
+      "A": "Cada pestaña es una ventana independiente.",
+      "B": "Las pestañas permiten ver varias páginas dentro de una misma ventana.",
+      "C": "Solo se puede tener una pestaña abierta a la vez.",
+      "D": "Las pestañas se usan únicamente en celulares."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 21,
+    "type": "argumentativa",
+    "topic": "Software y hardware",
+    "difficulty": "media",
+    "text": "¿Por qué es importante hacer copias de seguridad (backup) de los archivos?",
+    "choices": {
+      "A": "Para que el computador encienda más rápido.",
+      "B": "Para no perder información si el dispositivo falla o se daña.",
+      "C": "Para reducir el tamaño del disco duro.",
+      "D": "Porque lo exige el navegador."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 22,
+    "type": "propositiva",
+    "topic": "Artefactos tecnológicos",
+    "difficulty": "media",
+    "text": "Si quieres reducir el desperdicio de agua en tu casa, ¿qué artefacto tecnológico ayudaría más?",
+    "choices": {
+      "A": "Una regadera con limitador de caudal.",
+      "B": "Una televisión nueva.",
+      "C": "Un teclado inalámbrico.",
+      "D": "Una impresora a color."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 23,
+    "type": "interpretativa",
+    "topic": "Sistema operativo",
+    "difficulty": "media",
+    "text": "El 'escritorio' en un sistema operativo es:",
+    "choices": {
+      "A": "El mueble donde está el computador.",
+      "B": "La pantalla principal con accesos directos a programas y archivos.",
+      "C": "Un programa para hacer dibujos.",
+      "D": "Un tipo de impresora."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 24,
+    "type": "argumentativa",
+    "topic": "Navegadores",
+    "difficulty": "media",
+    "text": "¿Por qué es recomendable usar contraseñas distintas para diferentes cuentas?",
+    "choices": {
+      "A": "Para llenar más espacio en la memoria.",
+      "B": "Para que si una contraseña se descubre, no se pierdan todas las cuentas.",
+      "C": "Para que el navegador funcione más rápido.",
+      "D": "Para complicar el inicio de sesión sin razón."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 25,
+    "type": "interpretativa",
+    "topic": "Navegadores",
+    "difficulty": "media",
+    "text": "Una URL es:",
+    "choices": {
+      "A": "El nombre de un virus informático.",
+      "B": "La dirección única de una página web (ej. https://midominio.com).",
+      "C": "Un tipo de archivo de imagen.",
+      "D": "Un programa antivirus."
+    },
+    "answer": "B"
+  }
+]

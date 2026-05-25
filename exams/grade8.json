@@ -1,0 +1,355 @@
+[
+  {
+    "id": 1,
+    "type": "interpretativa",
+    "topic": "Máquinas simples",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes es un ejemplo de máquina simple?",
+    "choices": {
+      "A": "Una motocicleta.",
+      "B": "Una palanca.",
+      "C": "Una nevera.",
+      "D": "Un computador."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 2,
+    "type": "interpretativa",
+    "topic": "Máquinas simples",
+    "difficulty": "media",
+    "text": "El plano inclinado se usa para:",
+    "choices": {
+      "A": "Multiplicar la velocidad de un objeto.",
+      "B": "Disminuir la fuerza necesaria para subir una carga.",
+      "C": "Producir electricidad.",
+      "D": "Cambiar la temperatura del aire."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 3,
+    "type": "argumentativa",
+    "topic": "Máquinas simples",
+    "difficulty": "media",
+    "text": "¿Por qué una polea fija facilita el trabajo?",
+    "choices": {
+      "A": "Porque reduce a la mitad la fuerza necesaria.",
+      "B": "Porque cambia la dirección de la fuerza aplicada.",
+      "C": "Porque elimina el peso del objeto.",
+      "D": "Porque genera energía gratis."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 4,
+    "type": "analisis_grafica",
+    "topic": "Máquinas simples",
+    "difficulty": "media",
+    "text": "En una palanca, el punto de apoyo está en el centro, la fuerza a un lado y la carga al otro. Este tipo de palanca corresponde a:",
+    "choices": {
+      "A": "Palanca de primer género (como las tijeras).",
+      "B": "Palanca de segundo género (como la carretilla).",
+      "C": "Palanca de tercer género (como las pinzas).",
+      "D": "No es una palanca."
+    },
+    "answer": "A",
+    "image": "g8_q4_palanca.png"
+  },
+  {
+    "id": 5,
+    "type": "interpretativa",
+    "topic": "Máquinas compuestas",
+    "difficulty": "media",
+    "text": "Una máquina compuesta se caracteriza por:",
+    "choices": {
+      "A": "Tener una sola pieza móvil.",
+      "B": "Estar formada por la combinación de dos o más máquinas simples.",
+      "C": "Funcionar solo con electricidad.",
+      "D": "No tener partes móviles."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 6,
+    "type": "interpretativa",
+    "topic": "Máquinas compuestas",
+    "difficulty": "media",
+    "text": "¿Cuál de los siguientes es un ejemplo claro de máquina compuesta?",
+    "choices": {
+      "A": "Un cuchillo.",
+      "B": "Una bicicleta.",
+      "C": "Una cuña.",
+      "D": "Una rampa."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 7,
+    "type": "argumentativa",
+    "topic": "Máquinas compuestas",
+    "difficulty": "media",
+    "text": "¿Por qué una bicicleta se considera una máquina compuesta?",
+    "choices": {
+      "A": "Porque combina palancas (pedales), ruedas y poleas (cadena/piñones).",
+      "B": "Porque pesa más de 5 kilos.",
+      "C": "Porque tiene color y pintura.",
+      "D": "Porque la usan los niños."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 8,
+    "type": "propositiva",
+    "topic": "Máquinas compuestas",
+    "difficulty": "media",
+    "text": "Para diseñar una máquina compuesta que levante libros del piso a una repisa con poco esfuerzo, ¿qué combinarías?",
+    "choices": {
+      "A": "Polea fija + plano inclinado.",
+      "B": "Solo un cuchillo.",
+      "C": "Una cuña sola.",
+      "D": "Una sola palanca pequeña."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 9,
+    "type": "interpretativa",
+    "topic": "Máquinas de Goldberg",
+    "difficulty": "media",
+    "text": "Una máquina de Rube Goldberg se caracteriza por:",
+    "choices": {
+      "A": "Realizar una tarea sencilla mediante una cadena de pasos complicados y creativos.",
+      "B": "Sustituir a los electrodomésticos del hogar.",
+      "C": "Funcionar sin energía de ningún tipo.",
+      "D": "Solo usar partes electrónicas."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 10,
+    "type": "argumentativa",
+    "topic": "Máquinas de Goldberg",
+    "difficulty": "media",
+    "text": "¿Cuál es el principal valor educativo de construir una máquina de Goldberg?",
+    "choices": {
+      "A": "Aprender a usar muchos materiales y poner a prueba la creatividad y la física en cadena.",
+      "B": "Ahorrar electricidad en casa.",
+      "C": "Cambiar de carrera universitaria.",
+      "D": "Reemplazar los exámenes escritos."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 11,
+    "type": "propositiva",
+    "topic": "Máquinas de Goldberg",
+    "difficulty": "media",
+    "text": "Si tu máquina de Goldberg se detiene siempre en el paso 3, ¿cuál es la mejor estrategia?",
+    "choices": {
+      "A": "Cambiar todos los pasos desde el inicio.",
+      "B": "Revisar y ajustar solo el paso 3 y la transición que lo activa.",
+      "C": "Eliminar la máquina y empezar de cero.",
+      "D": "Echarle agua a la máquina para que funcione."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 12,
+    "type": "interpretativa",
+    "topic": "Excel",
+    "difficulty": "media",
+    "text": "En Excel, la celda B5 contiene =A1+A2. Si A1=4 y A2=6, B5 muestra:",
+    "choices": {
+      "A": "46.",
+      "B": "10.",
+      "C": "0.",
+      "D": "#ERROR."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 13,
+    "type": "interpretativa",
+    "topic": "Excel",
+    "difficulty": "media",
+    "text": "La función =SI(A1>=60;\"Aprobado\";\"Reprobado\") devuelve 'Aprobado' cuando:",
+    "choices": {
+      "A": "A1 es menor que 60.",
+      "B": "A1 es mayor o igual a 60.",
+      "C": "A1 está vacía.",
+      "D": "A1 contiene texto."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 14,
+    "type": "analisis_grafica",
+    "topic": "Excel",
+    "difficulty": "media",
+    "text": "Tabla: A1=2, A2=4, A3=6, A4=8. =CONTAR(A1:A4) devuelve:",
+    "choices": {
+      "A": "4.",
+      "B": "20.",
+      "C": "8.",
+      "D": "2."
+    },
+    "answer": "A",
+    "image": "g8_q14_excel.png"
+  },
+  {
+    "id": 15,
+    "type": "propositiva",
+    "topic": "Excel",
+    "difficulty": "media",
+    "text": "Para registrar las notas de los 30 estudiantes y calcular el promedio, ¿qué propuesta es la más eficiente en Excel?",
+    "choices": {
+      "A": "Sumar a mano cada nota con calculadora y escribirla.",
+      "B": "Usar =PROMEDIO(rango) con las notas.",
+      "C": "Insertar una imagen de las notas.",
+      "D": "Crear una sola celda con todas las notas en texto."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 16,
+    "type": "comprension_texto",
+    "topic": "Excel",
+    "difficulty": "media",
+    "text": "Lee: 'Una fórmula en Excel siempre inicia con el signo igual (=) e involucra celdas, números o funciones.' Según el texto, ¿cuál NO es una fórmula válida?",
+    "choices": {
+      "A": "=A1+A2.",
+      "B": "=SUMA(A1:A10).",
+      "C": "PROMEDIO(A1:A5).",
+      "D": "=B2*3."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 17,
+    "type": "interpretativa",
+    "topic": "Energía",
+    "difficulty": "media",
+    "text": "¿Cuál de las siguientes es una fuente de energía RENOVABLE?",
+    "choices": {
+      "A": "Carbón.",
+      "B": "Petróleo.",
+      "C": "Energía solar.",
+      "D": "Gas natural."
+    },
+    "answer": "C"
+  },
+  {
+    "id": 18,
+    "type": "argumentativa",
+    "topic": "Energía",
+    "difficulty": "media",
+    "text": "¿Por qué se promueve el uso de energías renovables?",
+    "choices": {
+      "A": "Porque son ilimitadas y generan menos contaminación.",
+      "B": "Porque son siempre más baratas el primer día.",
+      "C": "Porque no requieren ningún tipo de instalación.",
+      "D": "Porque las usan solo los países desarrollados."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 19,
+    "type": "analisis_grafica",
+    "topic": "Energía",
+    "difficulty": "media",
+    "text": "Una casa consume 300 kWh al mes. Si instala paneles solares que cubren el 60% del consumo, ¿cuánta energía sigue tomando de la red eléctrica?",
+    "choices": {
+      "A": "60 kWh.",
+      "B": "120 kWh.",
+      "C": "180 kWh.",
+      "D": "240 kWh."
+    },
+    "answer": "B",
+    "image": "g8_q19_energia.png"
+  },
+  {
+    "id": 20,
+    "type": "propositiva",
+    "topic": "Energía",
+    "difficulty": "media",
+    "text": "Para reducir el consumo de energía en el colegio, ¿qué medida tendría mayor impacto?",
+    "choices": {
+      "A": "Cambiar las bombillas tradicionales por LED y apagar equipos sin uso.",
+      "B": "Pintar las paredes de color oscuro.",
+      "C": "Imprimir más documentos a color.",
+      "D": "Dejar todos los equipos encendidos en la noche."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 21,
+    "type": "argumentativa",
+    "topic": "Máquinas simples",
+    "difficulty": "media",
+    "text": "¿Por qué la cuña (ej. el filo de un cuchillo) facilita cortar?",
+    "choices": {
+      "A": "Porque concentra la fuerza en un área pequeña y separa los materiales.",
+      "B": "Porque calienta el material al rozarlo.",
+      "C": "Porque pesa más que el material.",
+      "D": "Porque distribuye la fuerza en un área grande."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 22,
+    "type": "propositiva",
+    "topic": "Máquinas compuestas",
+    "difficulty": "media",
+    "text": "Para diseñar una grúa escolar que levante una caja con poco esfuerzo, ¿qué combinación es la más adecuada?",
+    "choices": {
+      "A": "Polea + palanca + manivela.",
+      "B": "Solo una cuña.",
+      "C": "Una rueda suelta.",
+      "D": "Un tornillo y nada más."
+    },
+    "answer": "A"
+  },
+  {
+    "id": 23,
+    "type": "interpretativa",
+    "topic": "Máquinas de Goldberg",
+    "difficulty": "media",
+    "text": "Una característica esencial de una máquina de Goldberg es:",
+    "choices": {
+      "A": "Realizar una tarea simple en un solo paso.",
+      "B": "Encadenar varios pasos donde uno activa al siguiente (efecto dominó).",
+      "C": "No tener movimiento.",
+      "D": "Solo usar electricidad."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 24,
+    "type": "interpretativa",
+    "topic": "Excel",
+    "difficulty": "media",
+    "text": "En Excel, =MAX(A1:A10) devuelve:",
+    "choices": {
+      "A": "La suma de las celdas A1 a A10.",
+      "B": "El valor más alto del rango A1:A10.",
+      "C": "El promedio del rango.",
+      "D": "El número de celdas vacías."
+    },
+    "answer": "B"
+  },
+  {
+    "id": 25,
+    "type": "argumentativa",
+    "topic": "Energía",
+    "difficulty": "media",
+    "text": "¿Por qué los paneles solares son más eficientes en zonas con mucha radiación solar?",
+    "choices": {
+      "A": "Porque generan más energía cuando reciben más luz solar.",
+      "B": "Porque son más baratos en zonas frías.",
+      "C": "Porque solo funcionan de noche.",
+      "D": "Porque la radiación los daña y reduce su costo."
+    },
+    "answer": "A"
+  }
+]
