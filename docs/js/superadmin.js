@@ -105,8 +105,10 @@
       throw new Error(`Archivo supera ${MAX_FILE_MB}MB`);
     }
     const sanitized = file.name.replace(/[^A-Za-z0-9._-]/g, '_');
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const path = `scans/${group}/${timestamp}__${sanitized}`;
+    // timestamp con ms + 4 chars aleatorios para evitar colisiones cuando se sube el mismo archivo
+    const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 23);
+    const rand = Math.random().toString(36).slice(2, 6);
+    const path = `scans/${group}/${ts}_${rand}__${sanitized}`;
 
     onProgress?.('Leyendo archivo...');
     const content = await fileToBase64(file, onProgress);
@@ -122,7 +124,11 @@
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Error ${res.status}`);
+      let msg = err.message || `Error ${res.status}`;
+      if (msg.includes('expected') && msg.includes('but')) {
+        msg = 'Archivo con ese nombre ya existe en el repo. Refresca o usa un nombre distinto.';
+      }
+      throw new Error(msg);
     }
     return path;
   }
