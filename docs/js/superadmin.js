@@ -7,9 +7,18 @@
 
   let groupsCache = null;
 
-  function getToken() { return sessionStorage.getItem(TOKEN_KEY) || ''; }
-  function setToken(v) { sessionStorage.setItem(TOKEN_KEY, v); }
-  function clearToken() { sessionStorage.removeItem(TOKEN_KEY); }
+  // localStorage para que el token persista entre sesiones del navegador
+  function getToken() {
+    return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY) || '';
+  }
+  function setToken(v) {
+    localStorage.setItem(TOKEN_KEY, v);
+    sessionStorage.removeItem(TOKEN_KEY); // limpiar copia vieja en sesion
+  }
+  function clearToken() {
+    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+  }
 
   async function ghFetch(path, init = {}) {
     const headers = {
@@ -32,6 +41,22 @@
     return data;
   }
 
+  async function deleteFile(group, name, sha) {
+    const path = `scans/${group}/${name}`;
+    const res = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        message: `Eliminar escaneo: ${path}`,
+        sha,
+        branch: SCAN_BRANCH,
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Error ${res.status}`);
+    }
+  }
+
   async function listAllScans() {
     const top = await listScans('');
     const groupDirs = top.filter(x => x.type === 'dir');
@@ -47,15 +72,30 @@
     return all;
   }
 
-  function fileToBase64(file) {
+  function arrayBufferToBase64(buffer) {
+    // Conversion por chunks; el spread ...new Uint8Array() reventaba con archivos >1MB
+    const bytes = new Uint8Array(buffer);
+    const chunkSize = 32768;
+    let binary = '';
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      const chunk = bytes.subarray(i, i + chunkSize);
+      binary += String.fromCharCode.apply(null, chunk);
+    }
+    return btoa(binary);
+  }
+
+  function fileToBase64(file, onProgress) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
-        const b = reader.result;
-        const b64 = btoa(String.fromCharCode(...new Uint8Array(b)));
-        resolve(b64);
+        try {
+          onProgress?.('Codificando...');
+          resolve(arrayBufferToBase64(reader.result));
+        } catch (e) {
+          reject(e);
+        }
       };
-      reader.onerror = () => reject(reader.error);
+      reader.onerror = () => reject(reader.error || new Error('No se pudo leer el archivo'));
       reader.readAsArrayBuffer(file);
     });
   }
@@ -69,7 +109,7 @@
     const path = `scans/${group}/${timestamp}__${sanitized}`;
 
     onProgress?.('Leyendo archivo...');
-    const content = await fileToBase64(file);
+    const content = await fileToBase64(file, onProgress);
 
     onProgress?.('Subiendo a GitHub...');
     const res = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
@@ -226,17 +266,37 @@
       files.sort((a, b) => b.name.localeCompare(a.name));
       out.innerHTML = `
         <table>
-          <thead><tr><th>Grupo</th><th>Archivo</th><th>Tamaño</th><th></th></tr></thead>
+          <thead><tr><th>Grupo</th><th>Archivo</th><th>Tamaño</th><th colspan="2"></th></tr></thead>
           <tbody>${files.map(f => `
-            <tr>
+            <tr data-group="${f.group}" data-name="${encodeURIComponent(f.name)}" data-sha="${f.sha}">
               <td>${f.group}</td>
               <td>${f.name}</td>
               <td>${(f.size/1024/1024).toFixed(2)} MB</td>
-              <td><a href="${f.html_url}" target="_blank" rel="noopener">Ver en GitHub</a></td>
+              <td><a href="${f.html_url}" target="_blank" rel="noopener">Ver</a></td>
+              <td><button class="btn-delete ghost" style="padding:4px 10px;font-size:12px;color:var(--error);border-color:#fecaca">Eliminar</button></td>
             </tr>`).join('')}
           </tbody>
         </table>
       `;
+      out.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const tr = e.target.closest('tr');
+          const group = tr.dataset.group;
+          const name = decodeURIComponent(tr.dataset.name);
+          const sha = tr.dataset.sha;
+          if (!confirm(`¿Eliminar ${name}? Esta accion no se puede deshacer.`)) return;
+          btn.disabled = true;
+          btn.textContent = 'Eliminando...';
+          try {
+            await deleteFile(group, name, sha);
+            tr.remove();
+          } catch (err) {
+            alert('Error al eliminar: ' + err.message);
+            btn.disabled = false;
+            btn.textContent = 'Eliminar';
+          }
+        });
+      });
     } catch (e) {
       out.innerHTML = `<p class="error">Error: ${e.message}</p>`;
     }
