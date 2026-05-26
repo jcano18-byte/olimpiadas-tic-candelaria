@@ -1,0 +1,61 @@
+name: OMR y publicar resultados
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scans/**'
+      - 'exams/**'
+      - 'data/students.csv'
+      - 'scripts/score_scans.py'
+      - 'scripts/build_web_data.py'
+      - '.github/workflows/omr.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omr
+  cancel-in-progress: false
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: System deps (OpenCV headless)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1 libglib2.0-0
+
+      - name: Python deps
+        run: |
+          pip install --upgrade pip
+          pip install opencv-python-headless numpy pymupdf
+
+      - name: Run OMR
+        run: python scripts/score_scans.py
+
+      - name: Build web JSON
+        run: python scripts/build_web_data.py
+
+      - name: Commit y push si hay cambios
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/results.csv docs/data/results.json docs/data/summary.json docs/data/students.json docs/data/exam_meta.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios; no se hace commit."
+          else
+            git commit -m "OMR auto: actualizar resultados"
+            git push
+          fi
