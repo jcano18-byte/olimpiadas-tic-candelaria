@@ -4,6 +4,7 @@
     '/area':          { view: 'admin', role: 'area' },
     '/coordinacion':  { view: 'admin', role: 'coordinacion' },
     '/rector':        { view: 'admin', role: 'rector' },
+    '/admin':         { view: 'admin', role: 'admin' },
   };
 
   function currentRoute() {

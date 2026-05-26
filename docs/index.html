@@ -20,6 +20,7 @@
       <a href="#/area" data-route="/area">Área</a>
       <a href="#/coordinacion" data-route="/coordinacion">Coordinación</a>
       <a href="#/rector" data-route="/rector">Rectoría</a>
+      <a href="#/admin" data-route="/admin" class="nav-admin">Admin</a>
     </nav>
   </header>
 
@@ -54,6 +55,103 @@
         <button type="submit">Entrar</button>
       </form>
       <p id="admin-error" class="error" hidden></p>
+    </section>
+  </template>
+
+  <template id="tpl-admin-superdashboard">
+    <section class="card">
+      <div class="row">
+        <h1 data-role-title>Panel · Administrador</h1>
+        <button id="logout" class="ghost">Cerrar sesión</button>
+      </div>
+
+      <div class="tabs">
+        <button data-tab="overview" class="tab-btn active">Resumen</button>
+        <button data-tab="upload" class="tab-btn">Subir escaneos</button>
+        <button data-tab="scans" class="tab-btn">Archivos subidos</button>
+        <button data-tab="settings" class="tab-btn">Configuración</button>
+      </div>
+
+      <div data-tab-panel="overview" class="tab-panel">
+        <div id="kpis" class="kpis"></div>
+        <div class="filters">
+          <label>Grado <select id="filter-grade"><option value="">Todos</option></select></label>
+          <label>Grupo <select id="filter-group"><option value="">Todos</option></select></label>
+          <label>Buscar <input id="filter-search" type="search" placeholder="Nombre o matrícula"></label>
+          <button id="export-csv">Exportar CSV</button>
+        </div>
+        <div class="grid-2">
+          <div><h2>Promedio por grupo</h2><canvas id="chart-group" height="180"></canvas></div>
+          <div><h2>% de aciertos por pregunta</h2><canvas id="chart-question" height="180"></canvas></div>
+        </div>
+        <h2>Ranking</h2>
+        <div class="table-wrap">
+          <table id="ranking">
+            <thead><tr><th>#</th><th>Matrícula</th><th>Nombre</th><th>Grupo</th><th>Grado</th><th>Puntaje</th><th>%</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div data-tab-panel="upload" class="tab-panel" hidden>
+        <h2>Subir hojas de respuestas escaneadas</h2>
+        <p class="muted">Sube los PDFs de las hojas de respuestas ya escaneadas. Los archivos se guardan en la carpeta <code>scans/&lt;grupo&gt;/</code> del repo. Después de subir se procesan localmente con el lector OMR para generar los resultados.</p>
+
+        <div id="token-block" class="alert">
+          <strong>Token requerido.</strong> Necesitas un Personal Access Token de GitHub con permiso de escritura sobre este repo.
+          <details>
+            <summary>¿Cómo lo obtengo?</summary>
+            <ol style="margin:6px 0 0 18px">
+              <li>Entra a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a></li>
+              <li>Repository access: <em>Only select repositories</em> → <code>olimpiadas-tic-candelaria</code></li>
+              <li>Permisos: <em>Contents: Read and write</em></li>
+              <li>Copia el token y pégalo abajo. El token se guarda solo en la sesión del navegador.</li>
+            </ol>
+          </details>
+          <div class="form-inline" style="margin-top:10px">
+            <label>Token <input id="gh-token" type="password" placeholder="github_pat_..." autocomplete="off"></label>
+            <button id="save-token">Guardar token</button>
+            <button id="clear-token" class="ghost">Olvidar token</button>
+          </div>
+          <p id="token-status" class="muted" style="margin-top:8px"></p>
+        </div>
+
+        <div id="upload-block" hidden>
+          <div class="form-inline" style="margin-top:18px">
+            <label>Grupo destino
+              <select id="upload-group"></select>
+            </label>
+          </div>
+          <div id="dropzone" class="dropzone">
+            <p>Arrastra los PDFs aquí o haz clic para seleccionar</p>
+            <input id="file-input" type="file" accept="application/pdf" multiple hidden>
+          </div>
+          <div id="upload-list"></div>
+        </div>
+      </div>
+
+      <div data-tab-panel="scans" class="tab-panel" hidden>
+        <h2>Archivos subidos</h2>
+        <p class="muted">Listado de hojas escaneadas en el repo.</p>
+        <div class="filters">
+          <label>Grupo
+            <select id="scans-group-filter"><option value="">Todos</option></select>
+          </label>
+          <button id="scans-refresh" class="ghost">Refrescar</button>
+        </div>
+        <div id="scans-list" class="table-wrap"></div>
+      </div>
+
+      <div data-tab-panel="settings" class="tab-panel" hidden>
+        <h2>Configuración</h2>
+        <p class="muted">Información del repositorio y enlaces útiles.</p>
+        <ul>
+          <li><strong>Repo:</strong> <a href="https://github.com/jcano18-byte/olimpiadas-tic-candelaria" target="_blank">jcano18-byte/olimpiadas-tic-candelaria</a></li>
+          <li><strong>Pages:</strong> <a href="https://jcano18-byte.github.io/olimpiadas-tic-candelaria/" target="_blank">jcano18-byte.github.io/olimpiadas-tic-candelaria</a></li>
+          <li><strong>Cambiar PINs:</strong> editar <code>docs/js/auth.js</code> con nuevos hashes SHA-256</li>
+          <li><strong>Regenerar JSON:</strong> <code>python scripts/build_web_data.py</code></li>
+        </ul>
+      </div>
     </section>
   </template>
 
@@ -106,6 +204,7 @@
   <script src="js/auth.js"></script>
   <script src="js/student.js"></script>
   <script src="js/admin.js"></script>
+  <script src="js/superadmin.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

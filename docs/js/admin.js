@@ -265,16 +265,34 @@
     return false;
   }
 
+  async function wireOverview(role) {
+    // assumes the DOM already has #kpis (or #admin-kpis), filters, charts, #ranking
+    const { students, results } = await loadData();
+    const allRows = applyRoleScope(role, buildRows(students, results));
+    populateFilters(allRows);
+    refresh(allRows);
+    document.getElementById('filter-grade').addEventListener('change', () => refresh(allRows));
+    document.getElementById('filter-group').addEventListener('change', () => refresh(allRows));
+    document.getElementById('filter-search').addEventListener('input', () => refresh(allRows));
+    document.getElementById('export-csv').addEventListener('click', () => exportCsv(window.__lastFiltered || allRows));
+  }
+
   window.OliAdmin = {
     async render(container, role) {
       if (!window.OliAuth.hasSession(role)) {
         await maybeAutoLogin(role);
       }
-      if (window.OliAuth.hasSession(role)) {
-        renderDashboard(container, role);
-      } else {
+      if (!window.OliAuth.hasSession(role)) {
         renderLogin(container, role);
+        return;
       }
-    }
+      if (role === 'admin' && window.OliSuperAdmin) {
+        window.OliSuperAdmin.render(container, role);
+      } else {
+        renderDashboard(container, role);
+      }
+    },
+    wireOverview,
+    loadData,
   };
 })();
