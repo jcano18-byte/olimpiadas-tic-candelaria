@@ -370,17 +370,30 @@ def save_debug_image(region: np.ndarray, info: dict, out_path: Path,
 
 
 # =================== Pipeline ===================
+def _iter_pages(path: Path, dpi: int):
+    """Itera (page_idx, page_img) para PDFs o imagenes sueltas."""
+    ext = path.suffix.lower()
+    if ext == ".pdf":
+        doc = fitz.open(path)
+        for page_idx in range(doc.page_count):
+            yield page_idx, pdf_page_to_image(path, page_idx, dpi)
+    elif ext in (".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"):
+        img = cv2.imread(str(path))
+        if img is None:
+            print(f"  [skip] no se pudo leer {path}")
+            return
+        yield 0, img
+
+
 def process_pdf(pdf_path: Path, dpi: int, students: dict, keys: dict,
                 debug_dir: Path | None = None) -> list[SheetResult]:
     try:
         rel = pdf_path.resolve().relative_to(BASE)
-        print(f"[PDF] {rel}")
+        print(f"[FILE] {rel}")
     except ValueError:
-        print(f"[PDF] {pdf_path}")
+        print(f"[FILE] {pdf_path}")
     out: list[SheetResult] = []
-    doc = fitz.open(pdf_path)
-    for page_idx in range(doc.page_count):
-        page = pdf_page_to_image(pdf_path, page_idx, dpi)
+    for page_idx, page in _iter_pages(pdf_path, dpi):
         for region, slot in split_into_sheets(page):
             tag = f"{pdf_path.stem}_p{page_idx+1}_s{slot}"
             info = grade_sheet(region, None)
@@ -479,13 +492,19 @@ def main() -> int:
     args = ap.parse_args()
 
     if not args.scans.exists():
-        print(f"No existe {args.scans}. Crea la carpeta o pasa --scans <path>.")
-        return 1
+        print(f"No existe {args.scans}. Generando results.csv vacio.")
+        write_csv([], args.output)
+        return 0
 
-    pdfs = sorted(args.scans.rglob("*.pdf"))
+    exts = (".pdf", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp")
+    if args.scans.is_file():
+        pdfs = [args.scans]
+    else:
+        pdfs = sorted(p for p in args.scans.rglob("*") if p.suffix.lower() in exts)
     if not pdfs:
-        print(f"No se encontraron PDFs en {args.scans}")
-        return 1
+        print(f"No se encontraron PDFs/imagenes en {args.scans}. Generando results.csv vacio.")
+        write_csv([], args.output)
+        return 0
 
     students = load_students()
     keys = load_answer_keys()
