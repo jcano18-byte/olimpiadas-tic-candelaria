@@ -6,10 +6,10 @@
   async function loadData() {
     if (DATA) return DATA;
     const [students, results, meta, summary] = await Promise.all([
-      fetch('data/students.json').then(r => r.json()),
-      fetch('data/results.json').then(r => r.json()),
-      fetch('data/exam_meta.json').then(r => r.json()),
-      fetch('data/summary.json').then(r => r.json()),
+      fetch('data/students.json', {cache: 'no-store'}).then(r => r.json()),
+      fetch('data/results.json', {cache: 'no-store'}).then(r => r.json()),
+      fetch('data/exam_meta.json', {cache: 'no-store'}).then(r => r.json()),
+      fetch('data/summary.json', {cache: 'no-store'}).then(r => r.json()),
     ]);
     DATA = { students, results, meta, summary };
     return DATA;
@@ -57,12 +57,16 @@
     const med = n ? sorted[Math.floor(n / 2)].score : 0;
     const top = sorted[0];
     const total = rows[0]?.correct?.length || 25;
+    const avgNota = total ? ((avg / total) * 5).toFixed(2) : '0.00';
     el.innerHTML = `
       <div class="kpi"><div class="label">Estudiantes</div>
         <div class="value">${n}</div></div>
       <div class="kpi"><div class="label">Promedio</div>
         <div class="value">${avg.toFixed(2)}</div>
         <div class="sub">de ${total}</div></div>
+      <div class="kpi"><div class="label">Nota promedio</div>
+        <div class="value">${avgNota}</div>
+        <div class="sub">de 5.0</div></div>
       <div class="kpi"><div class="label">Mediana</div>
         <div class="value">${med}</div></div>
       <div class="kpi"><div class="label">Mejor puntaje</div>
@@ -71,12 +75,17 @@
     `;
   }
 
+  function scoreToNota(score, total) {
+    return ((score / total) * 5).toFixed(1);
+  }
+
   function renderRanking(rows) {
     const tbody = document.querySelector('#ranking tbody');
     const sorted = [...rows].sort((a, b) => b.score - a.score);
     const total = rows[0]?.correct?.length || 25;
     tbody.innerHTML = sorted.map((r, i) => {
       const pct = (r.score / total) * 100;
+      const nota = scoreToNota(r.score, total);
       return `<tr>
         <td>${i + 1}</td>
         <td>${r.matricula}</td>
@@ -85,6 +94,7 @@
         <td>${r.grado}</td>
         <td><span class="score-pill ${classifyScore(pct)}">${r.score}</span></td>
         <td>${pct.toFixed(0)}%</td>
+        <td><strong>${nota}</strong></td>
       </tr>`;
     }).join('');
   }
@@ -181,12 +191,13 @@
 
   function exportCsv(rows) {
     const total = rows[0]?.correct?.length || 25;
-    const head = ['matricula', 'nombre', 'grupo', 'grado', 'puntaje', 'porcentaje'];
+    const head = ['matricula', 'nombre', 'grupo', 'grado', 'puntaje', 'porcentaje', 'nota'];
     const lines = [head.join(',')];
     const sorted = [...rows].sort((a, b) => b.score - a.score);
     for (const r of sorted) {
       const pct = ((r.score / total) * 100).toFixed(0);
-      lines.push([r.matricula, `"${r.nombre.replace(/"/g, '""')}"`, r.grupo, r.grado, r.score, pct].join(','));
+      const nota = scoreToNota(r.score, total);
+      lines.push([r.matricula, `"${r.nombre.replace(/"/g, '""')}"`, r.grupo, r.grado, r.score, pct, nota].join(','));
     }
     const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);

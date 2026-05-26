@@ -4,9 +4,9 @@
   async function loadData() {
     if (DATA) return DATA;
     const [students, results, meta] = await Promise.all([
-      fetch('data/students.json').then(r => r.json()),
-      fetch('data/results.json').then(r => r.json()),
-      fetch('data/exam_meta.json').then(r => r.json()),
+      fetch('data/students.json', {cache: 'no-store'}).then(r => r.json()),
+      fetch('data/results.json', {cache: 'no-store'}).then(r => r.json()),
+      fetch('data/exam_meta.json', {cache: 'no-store'}).then(r => r.json()),
     ]);
     DATA = { students, results, meta };
     return DATA;
@@ -52,15 +52,19 @@
       </div>`;
     }).join('');
 
+    const nota = ((score / total) * 5).toFixed(1);
     target.innerHTML = `
       <section class="card">
         <div class="row">
           <h1>${student.nombre}</h1>
-          <span class="score-pill ${cls}">${score}/${total} · ${pct.toFixed(0)}%</span>
+          <span class="score-pill ${cls}">${score}/${total} · ${pct.toFixed(0)}% · Nota ${nota}</span>
         </div>
         <p class="muted">Grado ${student.grado} · Grupo ${student.grupo} · Matrícula ${student.matricula}</p>
 
         <div class="kpis">
+          <div class="kpi"><div class="label">Tu nota</div>
+            <div class="value">${nota}</div>
+            <div class="sub">de 5.0</div></div>
           <div class="kpi"><div class="label">Posición en el grupo</div>
             <div class="value">${ranking.posGroup} / ${ranking.totalGroup}</div></div>
           <div class="kpi"><div class="label">Posición en el grado</div>
