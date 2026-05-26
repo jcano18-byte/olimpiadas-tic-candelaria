@@ -1,6 +1,6 @@
 """
 Convierte data/results.csv + exams/gradeN.json + data/students.csv
-en los JSON que consume la web estatica en web/data/.
+en los JSON que consume la web estatica en docs/data/.
 
 Nunca escribe las respuestas correctas a la web. Solo:
   - students.json    : matricula -> {nombre, grupo, grado, grupo_codigo}
@@ -15,7 +15,8 @@ from pathlib import Path
 from statistics import mean, median
 
 BASE = Path(__file__).resolve().parent.parent
-WEB_DATA = BASE / "web" / "data"
+# Servimos GitHub Pages desde docs/; web/ era el nombre antiguo
+WEB_DATA = BASE / "docs" / "data"
 WEB_DATA.mkdir(parents=True, exist_ok=True)
 
 STUDENTS_CSV = BASE / "data" / "students.csv"

@@ -237,6 +237,181 @@ def detect_fiducials(region: np.ndarray) -> np.ndarray | None:
     return np.array(chosen, dtype=np.float32)
 
 
+def detect_all_fiducials_in_page(page_img: np.ndarray) -> list[tuple[float, float]]:
+    """Detecta todos los cuadrados negros fiduciales en toda la pagina.
+    Robusto a paginas que no llenan la grilla 2x3 esperada.
+    """
+    h, w = page_img.shape[:2]
+    gray = cv2.cvtColor(page_img, cv2.COLOR_BGR2GRAY) if page_img.ndim == 3 else page_img
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+    contours, _ = cv2.findContours(binary, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+    # px/mm estimado por el tamaño esperado de la página (puede ser A4 o Letter)
+    px_per_mm = (w / 210 + h / 297) / 2
+    fid_px = FIDUCIAL * px_per_mm
+    # filtro estricto: fiduciales son cuadrados solidos ~5mm; las burbujas rellenas
+    # son circulos mas pequenos (~3.9mm diametro) y deben quedar excluidas
+    min_area = (fid_px * 0.75) ** 2
+    max_area = (fid_px * 1.6) ** 2
+
+    out = []
+    for c in contours:
+        area = cv2.contourArea(c)
+        if area < min_area or area > max_area:
+            continue
+        x, y, cw, ch = cv2.boundingRect(c)
+        if min(cw, ch) == 0:
+            continue
+        ar = max(cw, ch) / min(cw, ch)
+        if ar > 1.3:  # cuadrado
+            continue
+        rect_area = cw * ch
+        # solidez alta: un cuadrado tiene area/bbox=1.0; un circulo ~0.785
+        if area / rect_area < 0.85:
+            continue
+        out.append((x + cw / 2, y + ch / 2))
+    # dedupe duplicados (mismo punto detectado por varios contornos anidados)
+    dedup = []
+    min_dist_sq = (3 * px_per_mm) ** 2
+    for p in out:
+        if any((p[0]-q[0])**2 + (p[1]-q[1])**2 < min_dist_sq for q in dedup):
+            continue
+        dedup.append(p)
+
+    # Filtrar QR finder patterns: el QR tiene 3 cuadrados ~5mm dispuestos en L
+    # dentro de ~10mm. Los fiduciales reales (esquinas de hoja) estan a 80+ mm
+    # del fiducial mas cercano de la MISMA hoja. Entre hojas adyacentes pueden
+    # estar a ~15-20mm. Filtramos puntos con >=2 vecinos dentro de 13mm: solo
+    # QRs cumplen eso.
+    cluster_dist_sq = (13 * px_per_mm) ** 2
+    filtered = []
+    for i, p in enumerate(dedup):
+        neighbors = sum(
+            1 for j, q in enumerate(dedup)
+            if j != i and (p[0]-q[0])**2 + (p[1]-q[1])**2 < cluster_dist_sq
+        )
+        if neighbors < 2:
+            filtered.append(p)
+    return filtered
+
+
+def group_fiducials_into_sheets(fiducials: list[tuple[float, float]],
+                                 page_img: np.ndarray) -> list[np.ndarray]:
+    """Agrupa los fiduciales detectados en cuartetos (TL, TR, BR, BL) que forman
+    cada hoja. Acepta hojas con dimensiones flexibles entre 50mm y 150mm; lo
+    importante es que los 4 puntos formen un rectangulo razonable.
+    """
+    if len(fiducials) < 4:
+        return []
+
+    h, w = page_img.shape[:2]
+    px_per_mm = (w / 210 + h / 297) / 2
+    # Rango aceptable: una hoja real tiene 80-100mm de lado interno entre
+    # fiduciales. Damos margen amplio (60-130mm).
+    min_side_px = 60 * px_per_mm
+    max_side_px = 130 * px_per_mm
+    # Tolerancia para alineacion en linea recta: 30mm (lados pueden estar
+    # ligeramente fuera de paralelo si la hoja esta torcida)
+    align_tol_px = 30 * px_per_mm
+
+    pts = [np.array(p, dtype=np.float64) for p in fiducials]
+    used = [False] * len(pts)
+    sheets: list[np.ndarray] = []
+
+    # Ordenar por (y, x) para procesar de arriba a abajo, izquierda a derecha
+    order = sorted(range(len(pts)), key=lambda i: (pts[i][1], pts[i][0]))
+
+    for i in order:
+        if used[i]:
+            continue
+        tl = pts[i]
+
+        # TR: a la derecha de tl, misma altura aproximada
+        tr_idx = None
+        best_dx = float('inf')
+        for j in range(len(pts)):
+            if used[j] or j == i:
+                continue
+            dy = abs(pts[j][1] - tl[1])
+            dx = pts[j][0] - tl[0]
+            if dy < align_tol_px and min_side_px < dx < max_side_px and dx < best_dx:
+                best_dx = dx
+                tr_idx = j
+        if tr_idx is None:
+            continue
+        tr = pts[tr_idx]
+        side_w = tr[0] - tl[0]
+
+        # BL: abajo de tl, mismo x aproximado, similar height al ancho (relacion ~1:1)
+        bl_idx = None
+        best_dy = float('inf')
+        for j in range(len(pts)):
+            if used[j] or j in (i, tr_idx):
+                continue
+            dx = abs(pts[j][0] - tl[0])
+            dy = pts[j][1] - tl[1]
+            if dx < align_tol_px and min_side_px < dy < max_side_px and dy < best_dy:
+                best_dy = dy
+                bl_idx = j
+        if bl_idx is None:
+            continue
+        bl = pts[bl_idx]
+        side_h = bl[1] - tl[1]
+
+        # BR: a la derecha de bl y abajo de tr, formando el rectangulo
+        # En lugar de buscar punto cercano a (tr.x, bl.y), aceptamos cualquier
+        # punto razonable que cierre el cuadrilatero
+        expected_br_x = tr[0]
+        expected_br_y = bl[1]
+        br_idx = None
+        best_d = float('inf')
+        for j in range(len(pts)):
+            if used[j] or j in (i, tr_idx, bl_idx):
+                continue
+            dx = abs(pts[j][0] - expected_br_x)
+            dy = abs(pts[j][1] - expected_br_y)
+            if dx < align_tol_px and dy < align_tol_px:
+                d = dx + dy
+                if d < best_d:
+                    best_d = d
+                    br_idx = j
+        if br_idx is None:
+            continue
+        br = pts[br_idx]
+
+        # Sanity check: aspecto plausible
+        aspect = side_w / side_h if side_h > 0 else 0
+        if not (0.5 < aspect < 2.0):
+            continue
+
+        used[i] = used[tr_idx] = used[bl_idx] = used[br_idx] = True
+        sheets.append(np.array([tl, tr, br, bl], dtype=np.float32))
+
+    return sheets
+
+
+def extract_sheet_region(page_img: np.ndarray, fid_quad: np.ndarray,
+                         margin_mm: float = 8.0) -> tuple[np.ndarray, np.ndarray]:
+    """Dado un cuarteto de fiduciales en la pagina, recorta la region de la hoja
+    con un margen, y retorna (region_img, fiducials_relativos_al_recorte)."""
+    h, w = page_img.shape[:2]
+    px_per_mm = (w / 210 + h / 297) / 2
+    margin_px = margin_mm * px_per_mm
+
+    xs = fid_quad[:, 0]
+    ys = fid_quad[:, 1]
+    x0 = max(0, int(xs.min() - margin_px))
+    y0 = max(0, int(ys.min() - margin_px))
+    x1 = min(w, int(xs.max() + margin_px))
+    y1 = min(h, int(ys.max() + margin_px))
+
+    region = page_img[y0:y1, x0:x1].copy()
+    rel = fid_quad.copy()
+    rel[:, 0] -= x0
+    rel[:, 1] -= y0
+    return region, rel
+
+
 _qr_detector = cv2.QRCodeDetector()
 
 
@@ -261,13 +436,16 @@ def decode_qr(region: np.ndarray) -> str | None:
 
 
 def grade_sheet(region: np.ndarray, answer_key: list[str] | None,
-                fill_threshold: float = 0.55,
-                ambiguous_delta: float = 0.10) -> dict | None:
+                abs_threshold: float = 0.22,
+                rel_threshold: float = 0.07,
+                ambiguous_delta: float = 0.025,
+                fiducials: np.ndarray | None = None) -> dict | None:
     matricula = decode_qr(region)
     if not matricula:
         return {"error": "qr_not_detected"}
 
-    fiducials = detect_fiducials(region)
+    if fiducials is None:
+        fiducials = detect_fiducials(region)
     if fiducials is None:
         return {"error": "fiducials_not_detected", "matricula": matricula}
 
@@ -278,7 +456,7 @@ def grade_sheet(region: np.ndarray, answer_key: list[str] | None,
     gray = cv2.cvtColor(region, cv2.COLOR_BGR2GRAY) if region.ndim == 3 else region
 
     px_per_mm = (np.linalg.norm(H[:2, 0]) + np.linalg.norm(H[:2, 1])) / 2
-    sample_r = max(2, int(BUBBLE_R * 0.55 * px_per_mm))
+    sample_r = max(2, int(BUBBLE_R * 0.7 * px_per_mm))
 
     answers: list[str] = []
     fill_scores: list[dict] = []
@@ -301,13 +479,21 @@ def grade_sheet(region: np.ndarray, answer_key: list[str] | None,
                 # fill = (255 - mean) / 255; 0=blanco, 1=negro
                 opt_fills[opt] = float((255 - patch.mean()) / 255)
         fill_scores.append(opt_fills)
+
+        # Deteccion robusta:
+        # - relativo: max - min de la fila (mide cuanto destaca la opcion marcada)
+        # - absoluto: max debe superar abs_threshold (filtra ruido de paginas en blanco)
+        # - delta: max y segundo deben tener diferencia clara (filtra ambiguos)
         max_opt = max(opt_fills, key=opt_fills.get)
         max_fill = opt_fills[max_opt]
+        row_min = min(opt_fills.values())
+        relative = max_fill - row_min
         rest = sorted(v for k, v in opt_fills.items() if k != max_opt)
         second = rest[-1] if rest else 0.0
-        if max_fill < fill_threshold:
+
+        if max_fill < abs_threshold and relative < rel_threshold:
             answers.append('-')
-        elif max_fill - second < ambiguous_delta:
+        elif (max_fill - second) < ambiguous_delta:
             answers.append('?')
         else:
             answers.append(max_opt)
@@ -394,9 +580,17 @@ def process_pdf(pdf_path: Path, dpi: int, students: dict, keys: dict,
         print(f"[FILE] {pdf_path}")
     out: list[SheetResult] = []
     for page_idx, page in _iter_pages(pdf_path, dpi):
-        for region, slot in split_into_sheets(page):
+        # Deteccion global: buscar todos los fiduciales y agruparlos en hojas
+        all_fids = detect_all_fiducials_in_page(page)
+        sheet_quads = group_fiducials_into_sheets(all_fids, page)
+        if not sheet_quads:
+            print(f"  [skip] p{page_idx+1}: no se detectaron hojas validas en la pagina")
+            continue
+
+        for slot, fid_quad in enumerate(sheet_quads):
+            region, rel_fids = extract_sheet_region(page, fid_quad)
             tag = f"{pdf_path.stem}_p{page_idx+1}_s{slot}"
-            info = grade_sheet(region, None)
+            info = grade_sheet(region, None, fiducials=rel_fids)
             if info is None or "error" in info:
                 err = info.get("error") if info else "unknown"
                 mat = info.get("matricula", "?") if info else "?"
