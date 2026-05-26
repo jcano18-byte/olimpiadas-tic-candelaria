@@ -19,3 +19,8 @@ tmp_screens/
 
 # Logs
 *.log
+
+# Simulacion local de escaneos (no se versiona)
+scans_sim/
+data/results_test.csv
+data/results_noisy.csv
