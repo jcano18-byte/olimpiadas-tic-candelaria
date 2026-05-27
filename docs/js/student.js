@@ -57,10 +57,11 @@
     const classBanner = classifies
       ? `<div class="banner banner-pass">
            <span class="banner-icon">🏆</span>
-           <div>
+           <div style="flex:1">
              <strong>¡Felicitaciones! Pasas a la siguiente ronda</strong>
              <div class="banner-sub">Obtuviste un rendimiento de ${pct.toFixed(0)}% (igual o superior al 70% requerido)</div>
            </div>
+           <button id="btn-diploma">Descargar diploma</button>
          </div>`
       : `<div class="banner banner-fail">
            <span class="banner-icon">📊</span>
@@ -114,6 +115,118 @@
       </section>
     `;
     target.hidden = false;
+
+    if (classifies) {
+      const btn = document.getElementById('btn-diploma');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          generateDiploma(student, score, total, nota, pct, ranking);
+        });
+      }
+    }
+  }
+
+  let _escudoDataUrl = null;
+  async function getEscudoDataUrl() {
+    if (_escudoDataUrl) return _escudoDataUrl;
+    try {
+      const resp = await fetch('img/escudo.jpg');
+      const blob = await resp.blob();
+      _escudoDataUrl = await new Promise((res) => {
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.readAsDataURL(blob);
+      });
+      return _escudoDataUrl;
+    } catch { return null; }
+  }
+
+  async function generateDiploma(student, score, total, nota, pct, ranking) {
+    if (!window.jspdf) {
+      alert('jsPDF no cargado todavia. Refresca la pagina (Ctrl+F5).');
+      return;
+    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const W = 297, H = 210;
+
+    // Marco decorativo
+    doc.setDrawColor(30, 58, 138);
+    doc.setLineWidth(2.5);
+    doc.rect(10, 10, W - 20, H - 20);
+    doc.setLineWidth(0.6);
+    doc.rect(13, 13, W - 26, H - 26);
+
+    // Escudo
+    const escudo = await getEscudoDataUrl();
+    if (escudo) {
+      try { doc.addImage(escudo, 'JPEG', W / 2 - 15, 22, 30, 30); } catch {}
+    }
+
+    // Encabezado institucion
+    doc.setTextColor(30, 58, 138);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text('IE LA CANDELARIA', W / 2, 64, { align: 'center' });
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Olimpiadas de Tecnología e Informática 2026', W / 2, 71, { align: 'center' });
+
+    // Titulo grande
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(36);
+    doc.setTextColor(15, 23, 42);
+    doc.text('DIPLOMA', W / 2, 90, { align: 'center' });
+
+    doc.setDrawColor(30, 58, 138);
+    doc.setLineWidth(0.8);
+    doc.line(W / 2 - 25, 94, W / 2 + 25, 94);
+
+    // Cuerpo
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(13);
+    doc.setTextColor(55, 65, 81);
+    doc.text('Se otorga el presente diploma a', W / 2, 108, { align: 'center' });
+
+    // Nombre estudiante
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(15, 23, 42);
+    doc.text(student.nombre, W / 2, 124, { align: 'center' });
+
+    // Cuerpo del diploma
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
+    doc.setTextColor(55, 65, 81);
+    const lineas = [
+      `Estudiante del Grado ${student.grado}, Grupo ${student.grupo}, Matrícula ${student.matricula},`,
+      `por haber CLASIFICADO a la siguiente ronda de las Olimpiadas`,
+      `obteniendo un rendimiento del ${pct.toFixed(0)}% (${score}/${total} aciertos, nota ${nota}).`,
+    ];
+    lineas.forEach((l, i) => doc.text(l, W / 2, 138 + i * 7, { align: 'center' }));
+
+    // Detalles de puesto
+    doc.setFontSize(11);
+    doc.setTextColor(100, 116, 139);
+    doc.text(
+      `Puesto en su grupo: ${ranking.posGroup} de ${ranking.totalGroup}   ·   Puesto en su grado: ${ranking.posGrade} de ${ranking.totalGrade}   ·   Puesto general: ${ranking.posOverall} de ${ranking.totalOverall}`,
+      W / 2, 168, { align: 'center' }
+    );
+
+    // Fecha + firma
+    const today = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+    doc.setFontSize(10);
+    doc.setTextColor(71, 85, 105);
+    doc.text(`Expedido el ${today}`, W / 2, 182, { align: 'center' });
+
+    doc.setLineWidth(0.4);
+    doc.setDrawColor(100, 116, 139);
+    doc.line(W / 2 - 50, 192, W / 2 + 50, 192);
+    doc.setFontSize(10);
+    doc.text('Rectoría · IE La Candelaria', W / 2, 198, { align: 'center' });
+
+    const safeName = student.nombre.replace(/[^A-Za-z0-9]+/g, '_');
+    doc.save(`Diploma_${student.matricula}_${safeName}.pdf`);
   }
 
   function computeRanking(matricula, students, results) {

@@ -21,6 +21,8 @@ WEB_DATA.mkdir(parents=True, exist_ok=True)
 
 STUDENTS_CSV = BASE / "data" / "students.csv"
 RESULTS_CSV = BASE / "data" / "results.csv"
+RESULTS_MANUAL_JSON = BASE / "data" / "results_manual.json"
+ERRORS_JSON = BASE / "data" / "scan_errors.json"
 EXAMS = BASE / "exams"
 
 
@@ -45,10 +47,25 @@ def load_exam_meta():
     return meta
 
 
+def load_manual_results() -> dict:
+    """Lee data/results_manual.json. Estructura:
+      { "<matricula>": {"score": int, "note": str, "timestamp": str} }
+    """
+    if not RESULTS_MANUAL_JSON.exists():
+        return {}
+    try:
+        return json.loads(RESULTS_MANUAL_JSON.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+
+
 def main():
     students = load_students()
     results = load_results()
+    manual = load_manual_results()
     exam_meta = load_exam_meta()
+
+    student_by_mat = {s["matricula"]: s for s in students}
 
     students_out = {
         s["matricula"]: {
@@ -62,26 +79,76 @@ def main():
     (WEB_DATA / "students.json").write_text(
         json.dumps(students_out, ensure_ascii=False), encoding="utf-8")
 
-    results_out = {}
+    # Combinar OMR + entradas manuales (las manuales prevalecen).
+    # Para entradas manuales sin "correct" detallado, generamos uno sintético:
+    # marcamos los primeros 'score' como 1 y el resto como 0 (sirve para que
+    # el promedio por pregunta del grupo no se rompa; el detalle pregunta a
+    # pregunta del estudiante manual no es preciso de todos modos).
+    results_out: dict[str, dict] = {}
+    merged: list[dict] = []
     for r in results:
-        results_out[r["matricula"]] = {
+        mat = r["matricula"]
+        results_out[mat] = {
             "score": int(r["score"]),
             "correct": r["correct"],
         }
+        merged.append({
+            "matricula": mat,
+            "grado": int(r["grado"]),
+            "grupo": r["grupo"],
+            "score": int(r["score"]),
+            "correct": r["correct"],
+        })
+
+    for mat, m in manual.items():
+        student = student_by_mat.get(mat)
+        if not student:
+            continue
+        score = int(m.get("score", 0))
+        total = 25
+        score = max(0, min(total, score))
+        synth_correct = ("1" * score) + ("0" * (total - score))
+        results_out[mat] = {
+            "score": score,
+            "correct": synth_correct,
+            "manual": True,
+            "note": m.get("note", ""),
+        }
+        # reemplaza/agrega en merged tambien
+        merged = [x for x in merged if x["matricula"] != mat]
+        merged.append({
+            "matricula": mat,
+            "grado": int(student["grado"]),
+            "grupo": student["grupo"],
+            "score": score,
+            "correct": synth_correct,
+            "manual": True,
+        })
+
     (WEB_DATA / "results.json").write_text(
         json.dumps(results_out, ensure_ascii=False), encoding="utf-8")
 
     (WEB_DATA / "exam_meta.json").write_text(
         json.dumps(exam_meta, ensure_ascii=False), encoding="utf-8")
 
+    # Copiar scan_errors.json para que la web admin lo pueda leer
+    errors = []
+    if ERRORS_JSON.exists():
+        try:
+            errors = json.loads(ERRORS_JSON.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            errors = []
+    (WEB_DATA / "scan_errors.json").write_text(
+        json.dumps(errors, ensure_ascii=False), encoding="utf-8")
+
     by_grade = defaultdict(list)
     by_group = defaultdict(list)
     by_grade_q = defaultdict(lambda: defaultdict(list))
     by_group_q = defaultdict(lambda: defaultdict(list))
 
-    for r in results:
-        score = int(r["score"])
-        grado = int(r["grado"])
+    for r in merged:
+        score = r["score"]
+        grado = r["grado"]
         grupo = r["grupo"]
         correct = r["correct"]
         by_grade[grado].append(score)
@@ -103,7 +170,7 @@ def main():
         }
 
     summary = {
-        "global": stats([int(r["score"]) for r in results]),
+        "global": stats([r["score"] for r in merged]),
         "by_grade": {
             str(g): {
                 **stats(by_grade[g]),

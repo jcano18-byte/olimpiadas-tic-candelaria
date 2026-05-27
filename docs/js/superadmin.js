@@ -41,6 +41,272 @@
     return data;
   }
 
+  // ============ Plan B: resultados manuales ============
+  const MANUAL_PATH = 'data/results_manual.json';
+
+  async function fetchScanErrors() {
+    try {
+      const r = await fetch('data/scan_errors.json', {cache: 'no-store'});
+      if (!r.ok) return [];
+      return await r.json();
+    } catch { return []; }
+  }
+
+  async function fetchManualFromGitHub() {
+    // Returns { sha, content (obj) } or { sha: null, content: {} } if not exists
+    const res = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${MANUAL_PATH}?ref=${SCAN_BRANCH}`);
+    if (res.status === 404) return { sha: null, content: {} };
+    if (!res.ok) throw new Error(`GitHub ${res.status}`);
+    const data = await res.json();
+    const text = atob(data.content.replace(/\n/g, ''));
+    let parsed;
+    try { parsed = JSON.parse(text); } catch { parsed = {}; }
+    return { sha: data.sha, content: parsed };
+  }
+
+  async function saveManualToGitHub(content, sha, message) {
+    const jsonStr = JSON.stringify(content, null, 2);
+    const b64 = btoa(unescape(encodeURIComponent(jsonStr)));
+    const body = { message, content: b64, branch: SCAN_BRANCH };
+    if (sha) body.sha = sha;
+    const res = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${MANUAL_PATH}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Error ${res.status}`);
+    }
+    return res.json();
+  }
+
+  async function loadStudentsCache() {
+    if (!window.__students) {
+      window.__students = await fetch('data/students.json', {cache: 'no-store'}).then(r => r.json());
+    }
+    return window.__students;
+  }
+
+  async function loadResultsCache() {
+    return await fetch('data/results.json', {cache: 'no-store'}).then(r => r.json());
+  }
+
+  async function renderScanErrors() {
+    const el = document.getElementById('planb-errors');
+    if (!el) return;
+    const errors = await fetchScanErrors();
+    const badge = document.getElementById('planb-badge');
+    if (badge) {
+      if (errors.length > 0) { badge.textContent = errors.length; badge.hidden = false; }
+      else { badge.hidden = true; }
+    }
+    if (!errors.length) {
+      el.innerHTML = '<p class="muted">No hay errores. Todas las hojas escaneadas se procesaron correctamente.</p>';
+      return;
+    }
+    el.innerHTML = `
+      <table>
+        <thead><tr><th>Archivo</th><th>Pag</th><th>Slot</th><th>Matricula detectada</th><th>Error</th><th></th></tr></thead>
+        <tbody>${errors.map(e => `
+          <tr>
+            <td><a href="https://github.com/${REPO_OWNER}/${REPO_NAME}/blob/main/${e.file}" target="_blank" rel="noopener">${e.file.split('/').pop()}</a></td>
+            <td>${e.page ?? '-'}</td>
+            <td>${e.slot ?? '-'}</td>
+            <td>${e.matricula || '<em class="muted">no detectada</em>'}</td>
+            <td><span class="pass-badge pass-no">${e.error}</span></td>
+            <td>${e.matricula ? `<button class="ghost btn-fix-err" data-mat="${e.matricula}">Asignar manual</button>` : ''}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    `;
+    el.querySelectorAll('.btn-fix-err').forEach(btn => {
+      btn.addEventListener('click', () => selectStudent(btn.dataset.mat));
+    });
+  }
+
+  async function selectStudent(matricula) {
+    const students = await loadStudentsCache();
+    const results = await loadResultsCache();
+    const s = students[matricula];
+    if (!s) {
+      alert(`Matricula ${matricula} no esta en el listado de estudiantes.`);
+      return;
+    }
+    const r = results[matricula];
+    const form = document.getElementById('planb-form');
+    const info = document.getElementById('planb-student-info');
+    const scoreInput = document.getElementById('planb-score');
+    const noteInput = document.getElementById('planb-note');
+    const delBtn = document.getElementById('planb-delete');
+
+    let currentInfo = `<strong>${s.nombre}</strong> · Grado ${s.grado} · Grupo ${s.grupo} · Matricula ${matricula}`;
+    if (r) {
+      const tag = r.manual ? 'Resultado MANUAL' : 'Resultado OMR';
+      currentInfo += `<br><span class="muted">${tag} actual: ${r.score}/25 (${Math.round(r.score/25*100)}%)</span>`;
+    } else {
+      currentInfo += `<br><span class="muted">Sin resultado registrado todavia.</span>`;
+    }
+    info.innerHTML = currentInfo;
+
+    // Si ya hay entrada manual existente, prellena
+    try {
+      const { content } = await fetchManualFromGitHub();
+      if (content[matricula]) {
+        scoreInput.value = content[matricula].score;
+        noteInput.value = content[matricula].note || '';
+        delBtn.hidden = false;
+      } else {
+        scoreInput.value = r?.score ?? '';
+        noteInput.value = '';
+        delBtn.hidden = true;
+      }
+    } catch (e) {
+      console.warn('No se pudo leer manual.json', e);
+    }
+
+    form.dataset.mat = matricula;
+    form.hidden = false;
+    document.getElementById('planb-status').textContent = '';
+    scoreInput.focus();
+  }
+
+  async function renderStudentSearch() {
+    const input = document.getElementById('planb-search');
+    const matches = document.getElementById('planb-matches');
+    if (!input) return;
+    const students = await loadStudentsCache();
+
+    function update() {
+      const q = input.value.trim().toLowerCase();
+      if (q.length < 2) { matches.innerHTML = ''; return; }
+      const hits = [];
+      for (const [mat, s] of Object.entries(students)) {
+        if (mat.includes(q) || s.nombre.toLowerCase().includes(q)) {
+          hits.push({ mat, ...s });
+          if (hits.length >= 12) break;
+        }
+      }
+      matches.innerHTML = hits.map(h => `
+        <div class="planb-match" data-mat="${h.mat}">
+          <strong>${h.nombre}</strong> <small>${h.grupo} · mat ${h.mat}</small>
+        </div>
+      `).join('') || '<p class="muted">Sin coincidencias.</p>';
+      matches.querySelectorAll('.planb-match').forEach(el => {
+        el.addEventListener('click', () => selectStudent(el.dataset.mat));
+      });
+    }
+    input.removeEventListener('input', input.__handler);
+    input.__handler = update;
+    input.addEventListener('input', update);
+  }
+
+  async function renderManualList() {
+    const el = document.getElementById('planb-manual-list');
+    if (!el) return;
+    el.innerHTML = '<p class="muted">Cargando...</p>';
+    try {
+      const { content } = await fetchManualFromGitHub();
+      const students = await loadStudentsCache();
+      const entries = Object.entries(content);
+      if (!entries.length) {
+        el.innerHTML = '<p class="muted">Aun no hay entradas manuales registradas.</p>';
+        return;
+      }
+      entries.sort(([a],[b]) => a.localeCompare(b));
+      el.innerHTML = `
+        <table>
+          <thead><tr><th>Matricula</th><th>Nombre</th><th>Grupo</th><th>Puntaje</th><th>%</th><th>Nota</th><th>Observacion</th><th>Fecha</th><th></th></tr></thead>
+          <tbody>${entries.map(([mat, m]) => {
+            const s = students[mat] || {};
+            const pct = Math.round((m.score / 25) * 100);
+            const nota = ((m.score / 25) * 5).toFixed(1);
+            return `<tr>
+              <td>${mat}</td>
+              <td>${s.nombre || '(no listado)'}</td>
+              <td>${s.grupo || '-'}</td>
+              <td>${m.score}/25</td>
+              <td>${pct}%</td>
+              <td><strong>${nota}</strong></td>
+              <td>${m.note || ''}</td>
+              <td><small class="muted">${(m.timestamp || '').slice(0,10)}</small></td>
+              <td><button class="ghost btn-edit-manual" data-mat="${mat}">Editar</button></td>
+            </tr>`;
+          }).join('')}
+          </tbody>
+        </table>
+      `;
+      el.querySelectorAll('.btn-edit-manual').forEach(btn => {
+        btn.addEventListener('click', () => selectStudent(btn.dataset.mat));
+      });
+    } catch (e) {
+      el.innerHTML = `<p class="error">Error: ${e.message}. ¿Token cargado?</p>`;
+    }
+  }
+
+  function setupPlanBTab() {
+    renderScanErrors();
+    renderStudentSearch();
+    renderManualList();
+
+    const saveBtn = document.getElementById('planb-save');
+    const delBtn = document.getElementById('planb-delete');
+    const statusEl = document.getElementById('planb-status');
+
+    saveBtn.onclick = async () => {
+      const form = document.getElementById('planb-form');
+      const mat = form.dataset.mat;
+      const score = parseInt(document.getElementById('planb-score').value, 10);
+      const note = document.getElementById('planb-note').value.trim();
+      if (!mat) { statusEl.textContent = 'Selecciona un estudiante primero.'; return; }
+      if (isNaN(score) || score < 0 || score > 25) {
+        statusEl.textContent = 'Puntaje debe ser un entero entre 0 y 25.';
+        return;
+      }
+      if (!getToken()) {
+        statusEl.textContent = 'Sin token de GitHub. Cargalo en la pestana "Subir escaneos".';
+        statusEl.style.color = 'var(--error)';
+        return;
+      }
+      statusEl.textContent = 'Guardando...';
+      statusEl.style.color = '';
+      try {
+        const { sha, content } = await fetchManualFromGitHub();
+        content[mat] = {
+          score,
+          note,
+          timestamp: new Date().toISOString(),
+        };
+        await saveManualToGitHub(content, sha, `Manual: ${mat} -> ${score}/25`);
+        statusEl.textContent = '✔ Guardado. La calificacion se aplicara en ~2-3 min cuando el workflow termine.';
+        statusEl.style.color = 'var(--success)';
+        renderManualList();
+      } catch (e) {
+        statusEl.textContent = '✘ ' + e.message;
+        statusEl.style.color = 'var(--error)';
+      }
+    };
+
+    delBtn.onclick = async () => {
+      const form = document.getElementById('planb-form');
+      const mat = form.dataset.mat;
+      if (!mat) return;
+      if (!confirm(`¿Eliminar la entrada manual de ${mat}? El resultado del OMR (si existe) volvera a ser el oficial.`)) return;
+      statusEl.textContent = 'Eliminando...';
+      try {
+        const { sha, content } = await fetchManualFromGitHub();
+        delete content[mat];
+        await saveManualToGitHub(content, sha, `Manual: eliminar ${mat}`);
+        statusEl.textContent = '✔ Eliminado.';
+        statusEl.style.color = 'var(--success)';
+        form.hidden = true;
+        renderManualList();
+      } catch (e) {
+        statusEl.textContent = '✘ ' + e.message;
+        statusEl.style.color = 'var(--error)';
+      }
+    };
+  }
+
   async function deleteFile(group, name, sha) {
     const path = `scans/${group}/${name}`;
     const res = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
@@ -320,6 +586,7 @@
         populateGroupSelects();
         renderScansList();
       }
+      if (tab === 'planb') setupPlanBTab();
     }));
   }
 
@@ -335,6 +602,8 @@
         location.hash = '#/';
       });
       setupTabs(container);
+      // Pre-cargar badge de Plan B (silencioso) para que se vea al entrar
+      renderScanErrors().catch(() => {});
       document.getElementById('scans-refresh').addEventListener('click', renderScansList);
       document.getElementById('scans-group-filter').addEventListener('change', renderScansList);
       await window.OliAdmin.wireOverview(role);

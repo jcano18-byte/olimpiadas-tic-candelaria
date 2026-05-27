@@ -69,6 +69,7 @@
         <button data-tab="overview" class="tab-btn active">Resumen</button>
         <button data-tab="upload" class="tab-btn">Subir escaneos</button>
         <button data-tab="scans" class="tab-btn">Archivos subidos</button>
+        <button data-tab="planb" class="tab-btn">Plan B <span id="planb-badge" class="alert-dot" hidden></span></button>
         <button data-tab="settings" class="tab-btn">Configuración</button>
       </div>
 
@@ -143,6 +144,46 @@
         <div id="scans-list" class="table-wrap"></div>
       </div>
 
+      <div data-tab-panel="planb" class="tab-panel" hidden>
+        <h2>Plan B - Resultados manuales</h2>
+        <p class="muted">
+          Si el OMR no pudo leer una hoja escaneada (por ejemplo, QR ilegible o
+          hoja demasiado torcida), aparece aqui. Tambien puedes ingresar el puntaje
+          de un estudiante manualmente. Las entradas manuales sustituyen al resultado
+          del OMR para ese mismo estudiante.
+        </p>
+
+        <h3>Errores detectados por el OMR</h3>
+        <div id="planb-errors" class="table-wrap"><p class="muted">Cargando...</p></div>
+
+        <h3 style="margin-top:24px">Registrar puntaje manualmente</h3>
+        <p class="muted">Busca al estudiante por nombre o matricula. Si ya tiene un puntaje (OMR o manual), se mostrara aqui.</p>
+        <div class="form-inline">
+          <label>Buscar estudiante
+            <input id="planb-search" type="search" placeholder="Nombre o matricula" autocomplete="off">
+          </label>
+        </div>
+        <div id="planb-matches" class="planb-matches"></div>
+
+        <div id="planb-form" hidden style="margin-top:16px;padding:16px;background:#f9fafb;border:1px solid var(--border);border-radius:8px">
+          <div id="planb-student-info"></div>
+          <div class="form-inline" style="margin-top:10px">
+            <label>Puntaje (0 a 25)
+              <input id="planb-score" type="number" min="0" max="25" step="1">
+            </label>
+            <label style="flex:1;min-width:200px">Nota / observacion
+              <input id="planb-note" type="text" placeholder="ej. reescaneo manual por QR roto">
+            </label>
+            <button id="planb-save">Guardar</button>
+            <button id="planb-delete" class="ghost" hidden>Eliminar manual</button>
+          </div>
+          <p id="planb-status" class="muted" style="margin-top:8px"></p>
+        </div>
+
+        <h3 style="margin-top:24px">Entradas manuales registradas</h3>
+        <div id="planb-manual-list" class="table-wrap"><p class="muted">Cargando...</p></div>
+      </div>
+
       <div data-tab-panel="settings" class="tab-panel" hidden>
         <h2>Configuración</h2>
         <p class="muted">Información del repositorio y enlaces útiles.</p>
@@ -204,6 +245,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/student.js"></script>
   <script src="js/admin.js"></script>

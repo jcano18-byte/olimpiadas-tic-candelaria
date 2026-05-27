@@ -38,6 +38,7 @@ BASE = Path(__file__).resolve().parent.parent
 EXAMS = BASE / "exams"
 STUDENTS_CSV = BASE / "data" / "students.csv"
 RESULTS_CSV = BASE / "data" / "results.csv"
+ERRORS_JSON = BASE / "data" / "scan_errors.json"
 SCANS_DIR = BASE / "scans"
 
 # =================== Geometria (en mm) ===================
@@ -585,11 +586,13 @@ def _iter_pages(path: Path, dpi: int):
 
 
 def process_pdf(pdf_path: Path, dpi: int, students: dict, keys: dict,
-                debug_dir: Path | None = None) -> list[SheetResult]:
+                debug_dir: Path | None = None,
+                errors: list | None = None) -> list[SheetResult]:
     try:
-        rel = pdf_path.resolve().relative_to(BASE)
-        print(f"[FILE] {rel}")
+        rel_str = str(pdf_path.resolve().relative_to(BASE)).replace("\\", "/")
+        print(f"[FILE] {rel_str}")
     except ValueError:
+        rel_str = str(pdf_path)
         print(f"[FILE] {pdf_path}")
     out: list[SheetResult] = []
     for page_idx, page in _iter_pages(pdf_path, dpi):
@@ -597,7 +600,16 @@ def process_pdf(pdf_path: Path, dpi: int, students: dict, keys: dict,
         all_fids = detect_all_fiducials_in_page(page)
         sheet_quads = group_fiducials_into_sheets(all_fids, page)
         if not sheet_quads:
-            print(f"  [skip] p{page_idx+1}: no se detectaron hojas validas en la pagina")
+            msg = f"p{page_idx+1}: no se detectaron hojas validas en la pagina"
+            print(f"  [skip] {msg}")
+            if errors is not None:
+                errors.append({
+                    "file": rel_str,
+                    "page": page_idx + 1,
+                    "slot": None,
+                    "error": "no_sheets_detected",
+                    "matricula": None,
+                })
             continue
 
         for slot, fid_quad in enumerate(sheet_quads):
@@ -610,6 +622,12 @@ def process_pdf(pdf_path: Path, dpi: int, students: dict, keys: dict,
                 print(f"  [skip] {tag} matricula={mat} error={err}")
                 if debug_dir:
                     save_debug_image(region, info or {}, debug_dir / f"{tag}_FAIL.png")
+                if errors is not None:
+                    errors.append({
+                        "file": rel_str, "page": page_idx + 1, "slot": slot,
+                        "error": err,
+                        "matricula": mat if mat != "?" else None,
+                    })
                 continue
 
             mat = info["matricula"]
@@ -618,12 +636,24 @@ def process_pdf(pdf_path: Path, dpi: int, students: dict, keys: dict,
                 print(f"  [skip] {tag} matricula={mat} no esta en students.csv")
                 if debug_dir:
                     save_debug_image(region, info, debug_dir / f"{tag}_UNKNOWN.png")
+                if errors is not None:
+                    errors.append({
+                        "file": rel_str, "page": page_idx + 1, "slot": slot,
+                        "error": "matricula_no_esta_en_listado",
+                        "matricula": mat,
+                    })
                 continue
 
             grado = int(student["grado"])
             key = keys.get(grado)
             if key is None:
                 print(f"  [skip] {tag} matricula={mat} sin clave para grado {grado}")
+                if errors is not None:
+                    errors.append({
+                        "file": rel_str, "page": page_idx + 1, "slot": slot,
+                        "error": f"sin_clave_para_grado_{grado}",
+                        "matricula": mat,
+                    })
                 continue
 
             # re-calificar con la clave correcta
@@ -698,9 +728,14 @@ def main() -> int:
                     help="Si se indica, escribe imagenes con marcas en esa carpeta")
     args = ap.parse_args()
 
+    def _write_errors(items: list) -> None:
+        ERRORS_JSON.parent.mkdir(parents=True, exist_ok=True)
+        ERRORS_JSON.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
+
     if not args.scans.exists():
         print(f"No existe {args.scans}. Generando results.csv vacio.")
         write_csv([], args.output)
+        _write_errors([])
         return 0
 
     exts = (".pdf", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp")
@@ -711,6 +746,7 @@ def main() -> int:
     if not pdfs:
         print(f"No se encontraron PDFs/imagenes en {args.scans}. Generando results.csv vacio.")
         write_csv([], args.output)
+        _write_errors([])
         return 0
 
     students = load_students()
@@ -720,8 +756,12 @@ def main() -> int:
         debug.mkdir(parents=True, exist_ok=True)
 
     all_results: list[SheetResult] = []
+    errors: list = []
     for pdf in pdfs:
-        all_results.extend(process_pdf(pdf, args.dpi, students, keys, debug))
+        all_results.extend(process_pdf(pdf, args.dpi, students, keys, debug, errors))
+    _write_errors(errors)
+    if errors:
+        print(f"Errores OMR: {len(errors)} hojas requieren intervencion manual.")
 
     consolidated = consolidate(all_results)
     write_csv(consolidated, args.output)
