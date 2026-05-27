@@ -436,9 +436,9 @@ def decode_qr(region: np.ndarray) -> str | None:
 
 
 def grade_sheet(region: np.ndarray, answer_key: list[str] | None,
-                abs_threshold: float = 0.22,
+                mark_threshold: float = 0.25,
                 rel_threshold: float = 0.07,
-                ambiguous_delta: float = 0.025,
+                uniformity_max_std: float = 65.0,
                 fiducials: np.ndarray | None = None) -> dict | None:
     matricula = decode_qr(region)
     if not matricula:
@@ -461,7 +461,10 @@ def grade_sheet(region: np.ndarray, answer_key: list[str] | None,
     answers: list[str] = []
     fill_scores: list[dict] = []
     for q in range(NUM_QUESTIONS):
-        opt_fills: dict[str, float] = {}
+        # Para cada opcion guardamos (fill, std). std permite distinguir burbuja
+        # bien rellenada (interior uniforme, std bajo) vs marca tipo X (rayas
+        # con alto contraste, std alto).
+        opt_data: dict[str, tuple[float, float]] = {}
         for opt in OPTIONS:
             cx_mm, cy_mm = BUBBLE_POSITIONS[(q, opt)]
             pt = np.array([cx_mm, cy_mm, 1.0])
@@ -474,29 +477,39 @@ def grade_sheet(region: np.ndarray, answer_key: list[str] | None,
             y1 = min(gray.shape[0], int(ipy + sample_r))
             patch = gray[y0:y1, x0:x1]
             if patch.size == 0:
-                opt_fills[opt] = 0.0
+                opt_data[opt] = (0.0, 0.0)
             else:
                 # fill = (255 - mean) / 255; 0=blanco, 1=negro
-                opt_fills[opt] = float((255 - patch.mean()) / 255)
+                fill = float((255 - patch.mean()) / 255)
+                std = float(patch.std())
+                opt_data[opt] = (fill, std)
+        opt_fills = {k: v[0] for k, v in opt_data.items()}
         fill_scores.append(opt_fills)
 
-        # Deteccion robusta:
-        # - relativo: max - min de la fila (mide cuanto destaca la opcion marcada)
-        # - absoluto: max debe superar abs_threshold (filtra ruido de paginas en blanco)
-        # - delta: max y segundo deben tener diferencia clara (filtra ambiguos)
-        max_opt = max(opt_fills, key=opt_fills.get)
-        max_fill = opt_fills[max_opt]
-        row_min = min(opt_fills.values())
-        relative = max_fill - row_min
-        rest = sorted(v for k, v in opt_fills.items() if k != max_opt)
-        second = rest[-1] if rest else 0.0
+        # Reglas estrictas (segun el usuario):
+        #   Doble marca -> incorrecta (aunque una sea la correcta)
+        #   Sin marca -> incorrecta
+        #   Marca insuficiente (X, raya, marca chica) -> incorrecta
+        #
+        # Implementacion:
+        # - Una opcion esta 'marcada' si su fill supera el umbral combinado
+        #   (absoluto + relativo al promedio de la fila).
+        # - 0 marcadas -> '-' (blanco) -> incorrecta al comparar con la clave
+        # - 2+ marcadas -> 'M' (multiple) -> incorrecta
+        # - 1 marcada -> esa opcion
+        # Una X que no rellena la burbuja suficiente queda por debajo del
+        # umbral y se trata como blanco.
+        row_avg = sum(opt_fills.values()) / 4
+        row_thr = max(mark_threshold, row_avg + rel_threshold)
 
-        if max_fill < abs_threshold and relative < rel_threshold:
+        marked = [opt for opt, (f, _) in opt_data.items() if f >= row_thr]
+
+        if len(marked) == 0:
             answers.append('-')
-        elif (max_fill - second) < ambiguous_delta:
-            answers.append('?')
+        elif len(marked) >= 2:
+            answers.append('M')
         else:
-            answers.append(max_opt)
+            answers.append(marked[0])
 
     answers_str = ''.join(answers)
     if answer_key:
