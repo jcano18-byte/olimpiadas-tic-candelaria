@@ -58,6 +58,8 @@
     const top = sorted[0];
     const total = rows[0]?.correct?.length || 25;
     const avgNota = total ? ((avg / total) * 5).toFixed(2) : '0.00';
+    const passed = n ? rows.filter(r => classifies(r.score, total)).length : 0;
+    const passedPct = n ? ((passed / n) * 100).toFixed(0) : '0';
     el.innerHTML = `
       <div class="kpi"><div class="label">Estudiantes</div>
         <div class="value">${n}</div></div>
@@ -67,6 +69,9 @@
       <div class="kpi"><div class="label">Nota promedio</div>
         <div class="value">${avgNota}</div>
         <div class="sub">de 5.0</div></div>
+      <div class="kpi"><div class="label">Clasifican (>=70%)</div>
+        <div class="value">${passed}</div>
+        <div class="sub">${passedPct}% del total</div></div>
       <div class="kpi"><div class="label">Mediana</div>
         <div class="value">${med}</div></div>
       <div class="kpi"><div class="label">Mejor puntaje</div>
@@ -75,8 +80,14 @@
     `;
   }
 
+  const CLASSIFY_PCT = 70;
+
   function scoreToNota(score, total) {
     return ((score / total) * 5).toFixed(1);
+  }
+
+  function classifies(score, total) {
+    return (score / total) * 100 >= CLASSIFY_PCT;
   }
 
   function renderRanking(rows) {
@@ -86,6 +97,10 @@
     tbody.innerHTML = sorted.map((r, i) => {
       const pct = (r.score / total) * 100;
       const nota = scoreToNota(r.score, total);
+      const passes = classifies(r.score, total);
+      const passBadge = passes
+        ? '<span class="pass-badge pass-yes">CLASIFICA</span>'
+        : '<span class="pass-badge pass-no">NO PASA</span>';
       return `<tr>
         <td>${i + 1}</td>
         <td>${r.matricula}</td>
@@ -95,6 +110,7 @@
         <td><span class="score-pill ${classifyScore(pct)}">${r.score}</span></td>
         <td>${pct.toFixed(0)}%</td>
         <td><strong>${nota}</strong></td>
+        <td>${passBadge}</td>
       </tr>`;
     }).join('');
   }
@@ -220,6 +236,7 @@
       cols.push({ header: 'de', key: 'total', width: 5 });
       cols.push({ header: '%', key: 'pct', width: 7 });
       cols.push({ header: 'Nota', key: 'nota', width: 7 });
+      cols.push({ header: 'Clasifica', key: 'clasifica', width: 12 });
       cols.push({ header: 'Estado', key: 'estado', width: 12 });
       ws.columns = cols;
 
@@ -242,7 +259,17 @@
       for (const r of withResults) {
         const pct = (r.score / total) * 100;
         const nota = (r.score / total) * 5;
-        const row = { rank: rank++, matricula: r.matricula, nombre: r.nombre, score: r.score, total, pct: Math.round(pct), nota: Number(nota.toFixed(1)), estado: 'Calificado' };
+        const passes = pct >= 70;
+        const row = {
+          rank: rank++,
+          matricula: r.matricula,
+          nombre: r.nombre,
+          score: r.score, total,
+          pct: Math.round(pct),
+          nota: Number(nota.toFixed(1)),
+          clasifica: passes ? 'CLASIFICA' : 'NO PASA',
+          estado: 'Calificado',
+        };
         if (includeGroupGrade) { row.grupo = r.grupo; row.grado = r.grado; }
         const added = ws.addRow(row);
         const notaCell = added.getCell('nota');
@@ -253,9 +280,14 @@
         notaCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bg } };
         notaCell.font = { bold: true };
         notaCell.alignment = { horizontal: 'center' };
+
+        const clasCell = added.getCell('clasifica');
+        clasCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: passes ? NOTA_HIGH : NOTA_LOW } };
+        clasCell.font = { bold: true, color: { argb: passes ? 'FF047857' : 'FFB91C1C' } };
+        clasCell.alignment = { horizontal: 'center' };
       }
       for (const r of pending) {
-        const row = { rank: '', matricula: r.matricula, nombre: r.nombre, score: '', total: '', pct: '', nota: '', estado: 'Pendiente' };
+        const row = { rank: '', matricula: r.matricula, nombre: r.nombre, score: '', total: '', pct: '', nota: '', clasifica: '', estado: 'Pendiente' };
         if (includeGroupGrade) { row.grupo = r.grupo; row.grado = r.grado; }
         const added = ws.addRow(row);
         added.getCell('estado').font = { italic: true, color: { argb: 'FF6B7280' } };
@@ -292,6 +324,10 @@
     // Hoja "Resumen": todos los estudiantes
     fillSheet(wb.addWorksheet('Resumen'), fullRows, true);
 
+    // Hoja "Clasificados": solo los que pasan (>=70%)
+    const classified = fullRows.filter(r => r.score !== null && (r.score / total) * 100 >= 70);
+    fillSheet(wb.addWorksheet('Clasificados'), classified, true);
+
     // Una hoja por grupo
     const groups = [...new Set(fullRows.map(r => r.grupo))].sort((a, b) => {
       const [ga, sa] = a.split('-').map(Number);
@@ -316,13 +352,14 @@
 
   function exportCsv(rows) {
     const total = rows[0]?.correct?.length || 25;
-    const head = ['matricula', 'nombre', 'grupo', 'grado', 'puntaje', 'porcentaje', 'nota'];
+    const head = ['matricula', 'nombre', 'grupo', 'grado', 'puntaje', 'porcentaje', 'nota', 'clasifica'];
     const lines = [head.join(',')];
     const sorted = [...rows].sort((a, b) => b.score - a.score);
     for (const r of sorted) {
       const pct = ((r.score / total) * 100).toFixed(0);
       const nota = scoreToNota(r.score, total);
-      lines.push([r.matricula, `"${r.nombre.replace(/"/g, '""')}"`, r.grupo, r.grado, r.score, pct, nota].join(','));
+      const cls = classifies(r.score, total) ? 'CLASIFICA' : 'NO PASA';
+      lines.push([r.matricula, `"${r.nombre.replace(/"/g, '""')}"`, r.grupo, r.grado, r.score, pct, nota, cls].join(','));
     }
     const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);

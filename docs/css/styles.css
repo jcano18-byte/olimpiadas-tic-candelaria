@@ -252,6 +252,51 @@ tbody tr:hover { background: #f9fafb; }
 .legend .ok::before { background: #ecfdf5; border: 1px solid #a7f3d0; }
 .legend .bad::before { background: #fef2f2; border: 1px solid #fecaca; }
 
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin: 18px 0;
+  border: 1px solid var(--border);
+}
+.banner-icon { font-size: 32px; }
+.banner strong { display: block; font-size: 16px; }
+.banner-sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
+.banner-pass {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+.banner-pass strong { color: #047857; }
+.banner-pass .banner-sub { color: #065f46; }
+.banner-fail {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+.banner-fail strong { color: #b91c1c; }
+.banner-fail .banner-sub { color: #991b1b; }
+
+.sub-inline {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+.pass-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.pass-yes { background: #d1fae5; color: #047857; }
+.pass-no { background: #fee2e2; color: #b91c1c; }
+
 .nav-admin {
   background: rgba(239,68,68,0.20);
   border: 1px solid rgba(239,68,68,0.45);

@@ -53,6 +53,23 @@
     }).join('');
 
     const nota = ((score / total) * 5).toFixed(1);
+    const classifies = pct >= 70;
+    const classBanner = classifies
+      ? `<div class="banner banner-pass">
+           <span class="banner-icon">🏆</span>
+           <div>
+             <strong>¡Felicitaciones! Pasas a la siguiente ronda</strong>
+             <div class="banner-sub">Obtuviste un rendimiento de ${pct.toFixed(0)}% (igual o superior al 70% requerido)</div>
+           </div>
+         </div>`
+      : `<div class="banner banner-fail">
+           <span class="banner-icon">📊</span>
+           <div>
+             <strong>No clasificas a la siguiente ronda</strong>
+             <div class="banner-sub">Tu rendimiento fue ${pct.toFixed(0)}%; se requiere al menos 70% para pasar</div>
+           </div>
+         </div>`;
+
     target.innerHTML = `
       <section class="card">
         <div class="row">
@@ -61,14 +78,18 @@
         </div>
         <p class="muted">Grado ${student.grado} · Grupo ${student.grupo} · Matrícula ${student.matricula}</p>
 
+        ${classBanner}
+
         <div class="kpis">
           <div class="kpi"><div class="label">Tu nota</div>
             <div class="value">${nota}</div>
             <div class="sub">de 5.0</div></div>
-          <div class="kpi"><div class="label">Posición en el grupo</div>
-            <div class="value">${ranking.posGroup} / ${ranking.totalGroup}</div></div>
-          <div class="kpi"><div class="label">Posición en el grado</div>
-            <div class="value">${ranking.posGrade} / ${ranking.totalGrade}</div></div>
+          <div class="kpi"><div class="label">Puesto en tu grupo</div>
+            <div class="value">${ranking.posGroup}<span class="sub-inline"> / ${ranking.totalGroup}</span></div></div>
+          <div class="kpi"><div class="label">Puesto en tu grado</div>
+            <div class="value">${ranking.posGrade}<span class="sub-inline"> / ${ranking.totalGrade}</span></div></div>
+          <div class="kpi"><div class="label">Puesto general</div>
+            <div class="value">${ranking.posOverall}<span class="sub-inline"> / ${ranking.totalOverall}</span></div></div>
           <div class="kpi"><div class="label">Promedio del grupo</div>
             <div class="value">${ranking.avgGroup.toFixed(1)}</div>
             <div class="sub">de ${total}</div></div>
@@ -102,22 +123,27 @@
 
     const groupScores = [];
     const gradeScores = [];
+    const allScores = [];
     for (const [mat, s] of Object.entries(students)) {
       const r = results[mat];
       if (!r) continue;
+      allScores.push({ mat, score: r.score });
       if (s.grupo_codigo === myGroupKey) groupScores.push({ mat, score: r.score });
       if (s.grado === myGrade) gradeScores.push({ mat, score: r.score });
     }
     groupScores.sort((a, b) => b.score - a.score);
     gradeScores.sort((a, b) => b.score - a.score);
+    allScores.sort((a, b) => b.score - a.score);
 
     const posGroup = groupScores.findIndex(x => x.mat === matricula) + 1;
     const posGrade = gradeScores.findIndex(x => x.mat === matricula) + 1;
+    const posOverall = allScores.findIndex(x => x.mat === matricula) + 1;
     const avgGroup = groupScores.reduce((a, x) => a + x.score, 0) / Math.max(1, groupScores.length);
 
     return {
       posGroup, totalGroup: groupScores.length,
       posGrade, totalGrade: gradeScores.length,
+      posOverall, totalOverall: allScores.length,
       avgGroup,
     };
   }
