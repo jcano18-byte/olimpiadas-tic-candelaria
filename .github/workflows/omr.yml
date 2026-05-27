@@ -3,7 +3,7 @@ name: OMR y publicar resultados
 on:
   push:
     branches: [main]
-        paths:
+    paths:
       - 'scans/**'
       - 'exams/**'
       - 'data/students.csv'
@@ -11,7 +11,6 @@ on:
       - 'scripts/score_scans.py'
       - 'scripts/build_web_data.py'
       - '.github/workflows/omr.yml'
-
   workflow_dispatch:
 
 permissions:
@@ -32,7 +31,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
 
       - name: System deps (OpenCV headless)
         run: |
