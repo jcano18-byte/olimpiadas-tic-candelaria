@@ -189,6 +189,131 @@
     window.__lastFiltered = filtered;
   }
 
+  async function exportXlsx(allRows, students) {
+    if (!window.ExcelJS) {
+      alert('ExcelJS no cargado. Refresca la pagina (Ctrl+F5) e intenta de nuevo.');
+      return;
+    }
+    const total = allRows.find(r => r.correct)?.correct?.length || 25;
+
+    const wb = new ExcelJS.Workbook();
+    wb.creator = 'IE La Candelaria - Olimpiadas TIC';
+    wb.created = new Date();
+
+    const HEADER_FILL = 'FF1E3A8A';
+    const HEADER_FONT = 'FFFFFFFF';
+    const NOTA_LOW   = 'FFFECACA'; // rojo claro
+    const NOTA_MID   = 'FFFEF3C7'; // amarillo claro
+    const NOTA_HIGH  = 'FFD1FAE5'; // verde claro
+
+    function styleSheet(ws, includeGroupGrade) {
+      const cols = [
+        { header: '#', key: 'rank', width: 5 },
+        { header: 'Matricula', key: 'matricula', width: 12 },
+        { header: 'Nombre', key: 'nombre', width: 38 },
+      ];
+      if (includeGroupGrade) {
+        cols.push({ header: 'Grupo', key: 'grupo', width: 8 });
+        cols.push({ header: 'Grado', key: 'grado', width: 7 });
+      }
+      cols.push({ header: 'Puntaje', key: 'score', width: 8 });
+      cols.push({ header: 'de', key: 'total', width: 5 });
+      cols.push({ header: '%', key: 'pct', width: 7 });
+      cols.push({ header: 'Nota', key: 'nota', width: 7 });
+      cols.push({ header: 'Estado', key: 'estado', width: 12 });
+      ws.columns = cols;
+
+      const header = ws.getRow(1);
+      header.font = { bold: true, color: { argb: HEADER_FONT } };
+      header.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: HEADER_FILL } };
+      header.alignment = { vertical: 'middle', horizontal: 'center' };
+      header.height = 22;
+      ws.views = [{ state: 'frozen', ySplit: 1 }];
+    }
+
+    function fillSheet(ws, rows, includeGroupGrade) {
+      styleSheet(ws, includeGroupGrade);
+      const withResults = rows.filter(r => r.score !== null);
+      withResults.sort((a, b) => b.score - a.score);
+      const pending = rows.filter(r => r.score === null);
+      pending.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+      let rank = 1;
+      for (const r of withResults) {
+        const pct = (r.score / total) * 100;
+        const nota = (r.score / total) * 5;
+        const row = { rank: rank++, matricula: r.matricula, nombre: r.nombre, score: r.score, total, pct: Math.round(pct), nota: Number(nota.toFixed(1)), estado: 'Calificado' };
+        if (includeGroupGrade) { row.grupo = r.grupo; row.grado = r.grado; }
+        const added = ws.addRow(row);
+        const notaCell = added.getCell('nota');
+        let bg;
+        if (nota < 3) bg = NOTA_LOW;
+        else if (nota < 4) bg = NOTA_MID;
+        else bg = NOTA_HIGH;
+        notaCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bg } };
+        notaCell.font = { bold: true };
+        notaCell.alignment = { horizontal: 'center' };
+      }
+      for (const r of pending) {
+        const row = { rank: '', matricula: r.matricula, nombre: r.nombre, score: '', total: '', pct: '', nota: '', estado: 'Pendiente' };
+        if (includeGroupGrade) { row.grupo = r.grupo; row.grado = r.grado; }
+        const added = ws.addRow(row);
+        added.getCell('estado').font = { italic: true, color: { argb: 'FF6B7280' } };
+      }
+      ws.eachRow({ includeEmpty: false }, (row, n) => {
+        if (n === 1) return;
+        row.alignment = row.alignment || {};
+        row.getCell('matricula').alignment = { horizontal: 'center' };
+        row.getCell('score').alignment = { horizontal: 'center' };
+        row.getCell('total').alignment = { horizontal: 'center' };
+        row.getCell('pct').alignment = { horizontal: 'center' };
+        if (includeGroupGrade) {
+          row.getCell('grupo').alignment = { horizontal: 'center' };
+          row.getCell('grado').alignment = { horizontal: 'center' };
+        }
+      });
+    }
+
+    // Construir filas con todos los estudiantes (con o sin resultados)
+    const fullRows = [];
+    for (const [mat, s] of Object.entries(students)) {
+      const existing = allRows.find(r => r.matricula === mat);
+      fullRows.push({
+        matricula: mat,
+        nombre: s.nombre,
+        grupo: s.grupo,
+        grupo_codigo: s.grupo_codigo,
+        grado: s.grado,
+        score: existing ? existing.score : null,
+        correct: existing ? existing.correct : null,
+      });
+    }
+
+    // Hoja "Resumen": todos los estudiantes
+    fillSheet(wb.addWorksheet('Resumen'), fullRows, true);
+
+    // Una hoja por grupo
+    const groups = [...new Set(fullRows.map(r => r.grupo))].sort((a, b) => {
+      const [ga, sa] = a.split('-').map(Number);
+      const [gb, sb] = b.split('-').map(Number);
+      return ga - gb || sa - sb;
+    });
+    for (const g of groups) {
+      const rows = fullRows.filter(r => r.grupo === g);
+      const safeName = g.replace(/[\\/?*[\]:]/g, '_').slice(0, 31);
+      fillSheet(wb.addWorksheet(safeName), rows, false);
+    }
+
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `olimpiadas_${new Date().toISOString().slice(0,10)}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   function exportCsv(rows) {
     const total = rows[0]?.correct?.length || 25;
     const head = ['matricula', 'nombre', 'grupo', 'grado', 'puntaje', 'porcentaje', 'nota'];
@@ -235,6 +360,8 @@
     document.getElementById('filter-group').addEventListener('change', () => refresh(allRows));
     document.getElementById('filter-search').addEventListener('input', () => refresh(allRows));
     document.getElementById('export-csv').addEventListener('click', () => exportCsv(window.__lastFiltered || allRows));
+    const btnXlsx = document.getElementById('export-xlsx');
+    if (btnXlsx) btnXlsx.addEventListener('click', () => exportXlsx(allRows, students));
     document.getElementById('logout').addEventListener('click', () => {
       window.OliAuth.clearSession(role);
       location.hash = '#/';
@@ -286,6 +413,8 @@
     document.getElementById('filter-group').addEventListener('change', () => refresh(allRows));
     document.getElementById('filter-search').addEventListener('input', () => refresh(allRows));
     document.getElementById('export-csv').addEventListener('click', () => exportCsv(window.__lastFiltered || allRows));
+    const btnXlsx = document.getElementById('export-xlsx');
+    if (btnXlsx) btnXlsx.addEventListener('click', () => exportXlsx(allRows, students));
   }
 
   window.OliAdmin = {
